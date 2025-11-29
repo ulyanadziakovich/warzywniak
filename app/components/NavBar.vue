@@ -21,6 +21,8 @@
         <!-- Linki na desktopie -->
         <ul class="hidden md:flex items-center gap-10">
           <li><a href="#oferta-sezonowa" class="nav-link">Oferta sezonowa</a></li>
+          <li><a href="/inkubator" class="nav-link">Inkubator</a></li>
+          <li><a href="/galeria" class="nav-link">Galeria</a></li>
           <li><a href="https://www.ustrzyki-nocleg.pl/" class="nav-link" target="_blank" rel="noopener">Nasz Gościniec</a></li>
           <li><a href="#o-nas" class="nav-link">O nas</a></li>
           <li class="relative">
@@ -40,14 +42,8 @@
           </li>
         </ul>
 
-        <!-- Przycisk koszyka + hamburger na telefonie -->
+        <!-- Hamburger na telefonie -->
         <div class="flex items-center gap-4">
-          <!-- Koszyk (ikona) -->
-          <button class="relative p-3 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-white/20 transition">
-            <span class="text-2xl">Shopping Cart</span>
-            <span class="absolute -top-1 -right-1 bg-amber-400 text-emerald-900 text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">0</span>
-          </button>
-
           <!-- Hamburger (tylko na telefonie) -->
           <button @click="mobileOpen = !mobileOpen" class="md:hidden p-3">
             <div class="space-y-1.5">
@@ -64,6 +60,8 @@
     <div v-if="mobileOpen" class="md:hidden absolute top-full left-0 right-0 bg-emerald-700/95 backdrop-blur-lg border-t border-white/20">
       <ul class="py-6 px-8 space-y-6 text-center">
         <li><a href="#oferta-sezonowa" @click="mobileOpen = false" class="block text-xl text-white hover:text-amber-300 transition">Oferta sezonowa</a></li>
+        <li><a href="/inkubator" @click="mobileOpen = false" class="block text-xl text-white hover:text-amber-300 transition">Inkubator</a></li>
+        <li><a href="/galeria" @click="mobileOpen = false" class="block text-xl text-white hover:text-amber-300 transition">Galeria</a></li>
         <li><a href="https://www.ustrzyki-nocleg.pl/" target="_blank" rel="noopener" class="block text-xl text-white hover:text-amber-300 transition">Nasz Gościniec</a></li>
         <li><a href="#o-nas" @click="mobileOpen = false" class="block text-xl text-white hover:text-amber-300 transition">O nas</a></li>
         <li><a href="#kontakt" @click="mobileOpen = false" class="block text-xl text-white hover:text-amber-300 transition">Kontakt</a></li>
