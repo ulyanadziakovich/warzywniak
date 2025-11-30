@@ -40,6 +40,7 @@
               </div>
             </div>
           </li>
+
         </ul>
 
         <!-- Hamburger na telefonie -->
@@ -75,8 +76,11 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+
+
 const mobileOpen = ref(false)
 const showContact = ref(false)
+
 
 function handleClickOutside(event) {
   const contactPopup = document.getElementById('contact-popup')
