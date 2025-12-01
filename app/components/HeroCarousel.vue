@@ -1,291 +1,276 @@
 <template>
-  <div class="carousel-container">
-    <div class="carousel">
-      <button class="carousel-arrow left" @click="prevSlide">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <div class="carousel-slide">
-        <img :src="slides[current].img" :alt="slides[current].title" class="carousel-img" />
-        <div class="carousel-content">
-          <span class="carousel-category">{{ slides[current].category }}</span>
-          <h2 class="carousel-title">{{ slides[current].title }}</h2>
-          <p class="carousel-desc">{{ slides[current].desc }}</p>
+  <div class="hero-carousel">
+    <div class="carousel-wrapper">
+      <!-- Slajdy -->
+      <div class="carousel-track" :style="{ transform: `translateX(-${current * 100}%)` }">
+        <div v-for="(slide, index) in slides" :key="index" class="carousel-slide">
+          <img :src="slide.img" :alt="slide.title" class="slide-img" />
+          
+          <!-- Overlay z treścią -->
+          <div class="slide-overlay">
+            <div class="slide-content">
+              <span class="slide-tag">{{ slide.tag }}</span>
+              <h1 class="slide-title">{{ slide.title }}</h1>
+              <p class="slide-desc">{{ slide.desc }}</p>
+              <button class="slide-btn" @click="scrollToOffer">
+                Zobacz ofertę <span class="arrow">→</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <button class="carousel-arrow right" @click="nextSlide">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
-        </svg>
+
+      <!-- Strzałki -->
+      <button class="arrow left" @click="prevSlide" aria-label="Poprzedni slajd">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
       </button>
-    </div>
-    <div class="carousel-dots">
-      <span v-for="(slide, i) in slides" :key="i" class="dot" :class="{ active: i === current }" @click="goToSlide(i)"></span>
+      <button class="arrow right" @click="nextSlide" aria-label="Następny slajd">
+        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+
+      <!-- Kropki -->
+      <div class="dots">
+        <button
+          v-for="(slide, i) in slides"
+          :key="i"
+          :class="{ active: i === current }"
+          class="dot"
+          @click="current = i"
+          :aria-label="`Przejdź do slajdu ${i + 1}`"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+
 const slides = [
   {
     img: '/ogrod1.jpg',
-    category: 'Nasz Ogród',
-    title: 'Ogród pełen warzyw',
-    desc: 'Zobacz jak rosną nasze ekologiczne warzywa.',
-    link: '#oferta-sezonowa',
+    tag: 'Świeżo z grządki',
+    title: 'Najlepsze warzywa w mieście!',
+    desc: 'Ekologiczne, lokalne, ręcznie zbierane – codziennie prosto od rolnika do Twojego stołu.',
   },
   {
     img: '/ogrod2.jpg',
-    category: 'Nasz Ogród',
-    title: 'Uprawy sezonowe',
-    desc: 'Sezonowe produkty prosto z grządki.',
-    link: '#oferta-sezonowa',
+    tag: 'Sezonowe hity',
+    title: 'Młode ziemniaki, pomidory, cukinie...',
+    desc: 'Właśnie teraz smakują najlepiej! Sprawdź, co dziś zerwaliśmy dla Ciebie.',
   },
   {
     img: '/ogrod3.jpg',
-    category: 'Nasz Ogród',
-    title: 'Naturalne metody',
-    desc: 'Dbamy o naturę i zdrowie naszych roślin.',
-    link: '#oferta-sezonowa',
+    tag: '100% natura',
+    title: 'Bez chemii, bez kompromisów',
+    desc: 'Uprawiamy tak, jak robiły to nasze babcie – z miłością do ziemi i ludzi.',
   },
 ]
+
 const current = ref(0)
-function prevSlide() {
-  current.value = (current.value - 1 + slides.length) % slides.length
-}
-function nextSlide() {
+let interval = null
+
+const nextSlide = () => {
   current.value = (current.value + 1) % slides.length
 }
-function goToSlide(i) {
-  current.value = i
+
+const prevSlide = () => {
+  current.value = (current.value - 1 + slides.length) % slides.length
 }
+
+const scrollToOffer = () => {
+  document.querySelector('#oferta-sezonowa')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+// Auto-play
+onMounted(() => {
+  interval = setInterval(nextSlide, 6000)
+})
+
+onUnmounted(() => {
+  clearInterval(interval)
+})
 </script>
 
 <style scoped>
-.carousel-container {
-  max-width: 1200px;
-  margin: 0 auto 3rem auto;
-  border-radius: 2rem;
+.hero-carousel {
+  max-width: 1400px;
+  margin: 0 auto 4rem;
+  border-radius: 2.5rem;
   overflow: hidden;
-  box-shadow: 0 10px 60px rgba(5, 150, 105, 0.15);
-  background: #fff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.carousel-container:hover {
-  box-shadow: 0 15px 80px rgba(5, 150, 105, 0.25);
-}
-
-.carousel {
-  display: flex;
-  align-items: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   position: relative;
+}
+
+.carousel-wrapper {
+  position: relative;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 .carousel-slide {
-  flex: 1;
+  min-width: 100%;
   position: relative;
-  display: flex;
-  align-items: center;
-  min-height: 450px;
-  overflow: hidden;
 }
 
-.carousel-img {
+.slide-img {
   width: 100%;
-  height: 450px;
+  height: 100%;
   object-fit: cover;
-  object-position: center center;
-  transition: transform 0.5s ease;
 }
 
-.carousel-slide:hover .carousel-img {
-  transform: scale(1.05);
-}
-
-.carousel-content {
+.slide-overlay {
   position: absolute;
-  left: 2.5rem;
-  bottom: 2.5rem;
-  color: #fff;
-  background: linear-gradient(135deg, rgba(5, 150, 105, 0.95) 0%, rgba(16, 185, 129, 0.9) 100%);
-  backdrop-filter: blur(16px);
-  padding: 1.75rem 2rem;
-  border-radius: 1.25rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-  max-width: 380px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.7) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 4rem 5rem;
 }
 
-.carousel-content:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.35);
+.slide-content {
+  color: white;
+  max-width: 700px;
+  transform: translateY(20px);
+  animation: fadeInUp 0.9s ease forwards;
 }
 
-.carousel-category {
+.slide-tag {
   display: inline-block;
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.4rem 1rem;
-  border-radius: 2rem;
-  margin-bottom: 0.75rem;
+  background: #E8F5E8;
+  color: #2d6a2d;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  margin-bottom: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  letter-spacing: 1px;
 }
 
-.carousel-title {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  line-height: 1.2;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+.slide-title {
+  font-size: 3.8rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0.5rem 0 1rem;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.5);
 }
 
-.carousel-desc {
-  font-size: 1rem;
-  margin-bottom: 1.25rem;
-  line-height: 1.5;
+.slide-desc {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
   opacity: 0.95;
 }
 
-.carousel-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  color: #065f46;
-  font-size: 0.95rem;
+.slide-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 1rem 2.2rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  padding: 0.75rem 1.5rem;
-  border-radius: 3rem;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(251, 191, 36, 0.5);
-  transition: all 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
 }
 
-.carousel-btn:hover {
-  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
-  box-shadow: 0 6px 24px rgba(251, 191, 36, 0.6);
-  transform: translateY(-2px);
+.slide-btn:hover {
+  background: #43a047;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(76, 175, 80, 0.5);
 }
 
-.carousel-arrow {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
-  border: 2px solid rgba(5, 150, 105, 0.2);
-  border-radius: 50%;
+.slide-btn .arrow {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+/* Strzałki */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.85);
+  border: none;
   width: 56px;
   height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #059669;
+  border-radius: 50%;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(5, 150, 105, 0.15);
+  transition: all 0.3s;
+  backdrop-filter: blur(4px);
 }
 
-.carousel-arrow:hover {
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  color: #fff;
-  transform: scale(1.1);
-  box-shadow: 0 6px 24px rgba(5, 150, 105, 0.3);
-}
-
-.carousel-arrow.left {
-  position: absolute;
-  left: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.carousel-arrow.left:hover {
+.arrow:hover {
+  background: white;
   transform: translateY(-50%) scale(1.1);
 }
 
-.carousel-arrow.right {
+.arrow svg {
+  width: 28px;
+  height: 28px;
+  fill: #333;
+}
+
+.arrow.left { left: 20px; }
+.arrow.right { right: 20px; }
+
+/* Kropki */
+.dots {
   position: absolute;
-  right: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.carousel-arrow.right:hover {
-  transform: translateY(-50%) scale(1.1);
-}
-
-.carousel-dots {
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 1.5rem 0;
+  gap: 12px;
+  z-index: 10;
 }
 
 .dot {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #d1d5db;
+  background: rgba(255,255,255,0.5);
+  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.dot:hover {
-  background: #9ca3af;
-  transform: scale(1.2);
+  transition: all 0.3s;
 }
 
 .dot.active {
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  border: 2px solid rgba(5, 150, 105, 0.3);
-  box-shadow: 0 2px 12px rgba(5, 150, 105, 0.4);
+  background: #4caf50;
   transform: scale(1.3);
+  box-shadow: 0 0 15px rgba(76,175,80,0.7);
+}
+
+/* Responsywność */
+@media (max-width: 1024px) {
+  .slide-overlay { padding: 3rem; }
+  .slide-title { font-size: 3rem; }
+  .slide-desc { font-size: 1.25rem; }
 }
 
 @media (max-width: 768px) {
-  .carousel-slide {
-    min-height: 350px;
-  }
+  .slide-title { font-size: 2.5rem; }
+  .slide-desc { font-size: 1.15rem; }
+  .slide-overlay { padding: 2rem; }
+  .arrow { width: 48px; height: 48px; }
+  .arrow svg { width: 24px; height: 24px; }
+}
 
-  .carousel-img {
-    height: 350px;
-  }
-
-  .carousel-content {
-    left: 1.5rem;
-    right: 1.5rem;
-    bottom: 1.5rem;
-    padding: 1.5rem;
-    max-width: calc(100% - 3rem);
-  }
-
-  .carousel-title {
-    font-size: 1.75rem;
-  }
-
-  .carousel-desc {
-    font-size: 0.95rem;
-  }
-
-  .carousel-arrow {
-    width: 44px;
-    height: 44px;
-  }
-
-  .carousel-arrow.left {
-    left: 0.75rem;
-  }
-
-  .carousel-arrow.right {
-    right: 0.75rem;
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
