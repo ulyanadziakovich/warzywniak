@@ -6,15 +6,12 @@
         <div v-for="(slide, index) in slides" :key="index" class="carousel-slide">
           <img :src="slide.img" :alt="slide.title" class="slide-img" />
           
-          <!-- Overlay z treścią -->
+          <!-- Overlay z treścią – bez przycisku -->
           <div class="slide-overlay">
             <div class="slide-content">
               <span class="slide-tag">{{ slide.tag }}</span>
               <h1 class="slide-title">{{ slide.title }}</h1>
               <p class="slide-desc">{{ slide.desc }}</p>
-              <button class="slide-btn" @click="scrollToOffer">
-                Zobacz ofertę <span class="arrow">→</span>
-              </button>
             </div>
           </div>
         </div>
@@ -50,14 +47,14 @@ const slides = [
   {
     img: '/ogrod1.jpg',
     tag: 'Świeżo z grządki',
-    title: 'Najlepsze warzywa w mieście!',
-    desc: 'Ekologiczne, lokalne, ręcznie zbierane – codziennie prosto od rolnika do Twojego stołu.',
+    title: 'Najlepsze warzywa i przetwory',
+    desc: 'Ekologiczne, lokalne, ręcznie robione – prosto z Bieszczadów na Twój stół.',
   },
   {
     img: '/ogrod2.jpg',
     tag: 'Sezonowe hity',
-    title: 'Młode ziemniaki, pomidory, cukinie...',
-    desc: 'Właśnie teraz smakują najlepiej! Sprawdź, co dziś zerwaliśmy dla Ciebie.',
+    title: 'Młode ziemniaki, pomidory, ogórki...',
+    desc: 'Właśnie teraz smakują najlepiej! Sprawdź, co dziś zebraliśmy dla Ciebie.',
   },
   {
     img: '/ogrod3.jpg',
@@ -78,17 +75,13 @@ const prevSlide = () => {
   current.value = (current.value - 1 + slides.length) % slides.length
 }
 
-const scrollToOffer = () => {
-  document.querySelector('#oferta-sezonowa')?.scrollIntoView({ behavior: 'smooth' })
-}
-
-// Auto-play
+// Auto-play co 6 sekund
 onMounted(() => {
   interval = setInterval(nextSlide, 6000)
 })
 
 onUnmounted(() => {
-  clearInterval(interval)
+  if (interval) clearInterval(interval)
 })
 </script>
 
@@ -166,36 +159,11 @@ onUnmounted(() => {
 .slide-desc {
   font-size: 1.35rem;
   line-height: 1.6;
-  margin-bottom: 2rem;
   text-shadow: 0 2px 8px rgba(0,0,0,0.6);
   opacity: 0.95;
 }
 
-.slide-btn {
-  background: #4caf50;
-  color: white;
-  border: none;
-  padding: 1rem 2.2rem;
-  font-size: 1.2rem;
-  font-weight: 700;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
-}
-
-.slide-btn:hover {
-  background: #43a047;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(76, 175, 80, 0.5);
-}
-
-.slide-btn .arrow {
-  margin-left: 10px;
-  font-weight: bold;
-}
-
-/* Strzałki */
+/* Strzałki i kropki bez zmian */
 .arrow {
   position: absolute;
   top: 50%;
@@ -225,7 +193,6 @@ onUnmounted(() => {
 .arrow.left { left: 20px; }
 .arrow.right { right: 20px; }
 
-/* Kropki */
 .dots {
   position: absolute;
   bottom: 24px;
