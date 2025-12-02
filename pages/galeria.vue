@@ -1,8 +1,5 @@
 <template>
   <div>
-    <NavBar />
-    <SearchBar />
-
     <section class="relative py-20 bg-gradient-to-br from-emerald-50 via-amber-50 to-green-50 overflow-hidden">
       <!-- Delikatne tło z wzorami -->
       <div class="absolute inset-0 opacity-5">
@@ -80,9 +77,6 @@
 </template>
 
 <script setup>
-import NavBar from '~/app/components/NavBar.vue'
-import SearchBar from '~/app/components/SearchBar.vue'
-
 useHead({
   title: 'Galeria - EkoWarzywniak',
   meta: [

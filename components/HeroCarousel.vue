@@ -19,10 +19,14 @@
 
       <!-- Strzałki -->
       <button class="arrow left" @click="prevSlide" aria-label="Poprzedni slajd">
-        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
       </button>
       <button class="arrow right" @click="nextSlide" aria-label="Następny slajd">
-        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
       </button>
 
       <!-- Kropki -->
@@ -45,21 +49,18 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const slides = [
   {
-    img: '/ogrod1.jpg',
-    tag: 'Świeżo z grządki',
-    title: 'Najlepsze warzywa i przetwory',
+    img: '/pomidory.jpg',
+    title: 'Świeże warzywa prosto z pola',
     desc: 'Ekologiczne, lokalne, ręcznie robione – prosto z Bieszczadów na Twój stół.',
   },
   {
-    img: '/ogrod2.jpg',
-    tag: 'Sezonowe hity',
-    title: 'Młode ziemniaki, pomidory, ogórki...',
+    img: '/papryczka.jpg',
+    title: 'Ladne papryczki, pomidory, ziemniaki...',
     desc: 'Właśnie teraz smakują najlepiej! Sprawdź, co dziś zebraliśmy dla Ciebie.',
   },
   {
-    img: '/ogrod3.jpg',
-    tag: '100% natura',
-    title: 'Bez chemii, bez kompromisów',
+    img: '/ziemniaki.jpg',
+    title: 'Sprawdź naszą sezonową ofertę',
     desc: 'Uprawiamy tak, jak robiły to nasze babcie – z miłością do ziemi i ludzi.',
   },
 ]
@@ -163,35 +164,44 @@ onUnmounted(() => {
   opacity: 0.95;
 }
 
-/* Strzałki i kropki bez zmian */
+/* Strzałki */
 .arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.9);
   border: none;
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
   transition: all 0.3s;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .arrow:hover {
   background: white;
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .arrow svg {
-  width: 28px;
-  height: 28px;
-  fill: #333;
+  width: 32px;
+  height: 32px;
+  stroke: #f97316;
 }
 
-.arrow.left { left: 20px; }
-.arrow.right { right: 20px; }
+.arrow:hover svg {
+  stroke: #ea580c;
+}
+
+.arrow.left { left: 24px; }
+.arrow.right { right: 24px; }
 
 .dots {
   position: absolute;
