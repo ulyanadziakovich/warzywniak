@@ -1,76 +1,92 @@
 <template>
-  <section class="relative py-20 bg-gradient-to-br from-emerald-50 via-amber-50 to-green-50 overflow-hidden" id="o-nas">
-    <!-- Delikatne tło z wzorami roślin -->
-    <div class="absolute inset-0 opacity-5">
-      <div class="absolute top-10 left-10 text-8xl text-emerald-600">🌿</div>
-      <div class="absolute top-40 right-20 text-6xl text-amber-600">🍅</div>
-      <div class="absolute bottom-20 left-1/4 text-7xl text-green-600">🌾</div>
-      <div class="absolute top-1/3 right-1/3 text-5xl text-emerald-500">🥬</div>
-      <div class="absolute bottom-40 right-10 text-8xl text-green-500">🌱</div>
-      <div class="absolute top-20 left-1/3 text-6xl text-amber-500">🍃</div>
-      <div class="absolute bottom-10 left-1/2 text-7xl text-emerald-400">🌿</div>
-    </div>
+  <section class="py-24 md:py-32 bg-white" id="o-nas">
+    <!-- Cienkie bursztynowe paski na górze -->
+    <div class="bg-gradient-to-r from-amber-700 to-amber-600 h-1"></div>
+    <div class="bg-gradient-to-r from-amber-700 to-amber-600 h-px"></div>
 
-    <div class="relative max-w-7xl mx-auto px-6">
-      <h2 class="text-5xl font-bold text-emerald-800 mb-8 text-center">O nas</h2>
-
-      <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-10 space-y-6 border-2 border-emerald-100">
-        <p class="text-2xl text-emerald-700 font-semibold text-center mb-4">
-          Cześć, cieszymy się, że jesteś ♡
-        </p>
-
-        <p class="text-lg text-gray-800 leading-relaxed">
-          W 2015 roku, zupełnie zakochani w Bieszczadach, kupiliśmy kawałek ziemi po dawnym PGR-ze. Marzyło nam się miejsce, w którym będzie pachniało pomidorami prosto z krzaka, w którym dzieciaki będą biegać między grządkami, a turyści wrócą do domu z siatką pełną prawdziwego smaku.
-        </p>
-
-        <p class="text-lg text-gray-800 leading-relaxed">
-          Zaczęliśmy od borówki amerykańskiej – dziś mamy prawie 3 hektary krzewów, które co lato uginają się od owoców. Obok rosną dereń jadalny, śliwy, czarny bez i mnóstwo ziół. Potem przyszedł czas na wielki ogród warzywny. Sadzimy, pielimy, zbieramy – prawie wszystko ręcznie, bo tylko tak warzywa mają w sobie to „coś": słońce, deszcz i naszą codzienną opiekę.
-        </p>
-
-        <p class="text-lg text-gray-800 leading-relaxed">
-          W 2018 roku postawiliśmy budynek, który nazwaliśmy <span class="font-semibold text-emerald-700">Inkubatorem Przetwórstwa Lokalnego</span>. Wygląda nowocześnie, ale w środku pachnie jak u babci w kuchni. Robimy tu kimchi, kiszonki, powidła, konfitury, soki tłoczone i syropy – powoli, z miłością, często przy otwartych oknach i z muzyką w tle. Każdą partię próbujemy, doprawiamy, czasem poprawiamy przepis „na oko", bo smak musi być dokładnie taki, jaki pamiętamy z dzieciństwa.
-        </p>
-
-        <p class="text-lg text-gray-800 leading-relaxed">
-          W 2020 roku urodziła się nasza marka – <span class="font-bold text-emerald-800">Bieszczadzki Ogród</span>. Wszystko, co pakujemy w słoiki i butelki, pochodzi z naszych upraw albo od sąsiadów, którym ufamy jak rodzinie.
-        </p>
-
-        <p class="text-lg text-gray-800 leading-relaxed">
-          Uwielbiamy, kiedy przyjeżdżacie: na zakupy prosto z grządki, na warsztaty, na pogaduszki albo po prostu pooglądać zachód słońca nad plantacją. Dla nas to nie sklep – to nasz dom, który otwieramy przed Wami z szeroko otwartymi ramionami.
-        </p>
-
-        <p class="text-xl text-emerald-700 font-semibold text-center mt-8">
-          Przyjedźcie, spróbujcie, poczujcie.<br>
-          Tutaj naprawdę smakuje jak w domu – tylko jeszcze lepiej ♡
-        </p>
-
-        <p class="text-lg text-gray-600 italic text-center mt-6">
-          Z ciepłem,<br>
-          <span class="font-semibold text-emerald-800">Zespół Bieszczadzkiego Ogrodu</span>
-        </p>
+    <!-- Główny kontener -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Nagłówek -->
+      <div class="text-center mb-16 md:mb-24">
+        <p class="text-sm font-medium text-gray-600 tracking-widest uppercase mb-4">Nasza historia</p>
+        <h2 class="text-5xl md:text-7xl font-bold text-gray-900">O nas</h2>
+        <div class="w-24 h-1 bg-amber-700 mx-auto mt-8"></div>
       </div>
 
-      <!-- Mapa z adresem -->
-      <div class="mt-12">
-        <h3 class="text-3xl font-bold text-emerald-800 mb-6 text-center">Znajdź nas</h3>
-        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border-2 border-emerald-100">
-          <div class="mb-4 text-center">
-            <p class="text-xl font-semibold text-emerald-700 mb-2">📍 Nasz adres</p>
-            <p class="text-lg text-gray-800">Moczary 39</p>
-            <p class="text-lg text-gray-800">38-700 Ustrzyki Dolne</p>
+      <!-- Tekst -->
+      <div class="max-w-5xl mx-auto px-4 mb-20">
+        <div class="bg-white rounded-2xl shadow-xl p-10 md:p-16 border border-gray-100 text-gray-700 text-lg md:text-xl leading-relaxed space-y-10">
+          <p class="text-2xl md:text-3xl font-light text-center text-amber-800">
+            Cześć, cieszymy się, że jesteś ♡
+          </p>
+          <p>W 2015 roku kupiliśmy kawałek ziemi po dawnym PGR-ze w Bieszczadach. Marzyło nam się miejsce, w którym będzie pachniało pomidorami prosto z krzaka, a dzieci będą biegać między grządkami.</p>
+          <p>Zaczęliśmy od borówki amerykańskiej – dziś mamy prawie 3 hektary krzewów. Obok rosną dereń, śliwy, czarny bez i mnóstwo ziół. Potem powstał wielki ogród warzywny. Sadzimy, pielimy i zbieramy niemal wszystko ręcznie – bo tylko tak warzywa i owoce mają w sobie prawdziwy smak słońca i deszczu.</p>
+          <p>W 2018 roku zbudowaliśmy <span class="font-medium text-amber-900">Inkubator Przetwórstwa Lokalnego</span>. Robimy tu kimchi, kiszonki, powidła, soki tłoczone i syropy – powoli, z miłością, często przy otwartych oknach i z muzyką w tle.</p>
+          <p>W 2020 roku narodziła się nasza marka – <span class="font-semibold text-amber-900">Bieszczadzki Ogród</span>. Wszystko pochodzi z naszych upraw albo od sąsiadów, którym ufamy jak rodzinie.</p>
+          <p class="text-xl md:text-2xl font-light text-center text-amber-800 italic">
+            To nie sklep. To nasz dom, który otwieramy przed Wami z szeroko otwartymi ramionami.
+          </p>
+        </div>
+      </div>
+
+      <!-- Zdjęcia Mirek i Kasia -->
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
+          <div class="text-center">
+            <div class="aspect-square rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-100 hover:border-amber-300 transition">
+              <img src="/mirek.jpg" alt="Mirek" class="w-full h-full object-cover" />
+            </div>
+            <p class="mt-6 text-2xl font-medium text-gray-800">Mirek</p>
+            <p class="text-gray-600">założyciel i serce całego ogrodu</p>
           </div>
-          <div class="rounded-xl overflow-hidden shadow-lg border-2 border-emerald-200">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2580.6249747923543!2d22.592819476891564!3d49.42081627144047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473c1f8f8f8f8f8f%3A0x0!2sMoczary%2039%2C%2038-700%20Ustrzyki%20Dolne!5e0!3m2!1spl!2spl!4v1234567890123!5m2!1spl!2spl"
-              width="100%"
-              height="400"
-              style="border:0;"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              class="w-full"
-            ></iframe>
+          <div class="text-center">
+            <div class="aspect-square rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-100 hover:border-amber-300 transition">
+              <img src="/kasia.jpg" alt="Kasia" class="w-full h-full object-cover" />
+            </div>
+            <p class="mt-6 text-2xl font-medium text-gray-800">Kasia</p>
+            <p class="text-gray-600">mózg operacyjny i królowa przetworów</p>
           </div>
+        </div>
+        <div class="text-center mt-12 md:mt-0 md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-1/2 md:pointer-events-none">
+          <p class="text-xl md:text-2xl text-gray-700">
+            
+          </p>
+        </div>
+      </div>
+
+      <!-- Mapa i adres -->
+      <div class="mt-24 md:mt-32">
+        <p class="text-center text-sm uppercase tracking-widest text-gray-600 mb-8">Gdzie nas znaleźć</p>
+        <div class="w-full bg-gray-50 shadow-lg overflow-hidden">
+          <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="text-center mt-8 space-y-1 text-gray-700">
+          <p class="font-medium">Moczary 39</p>
+          <p>38-700 Ustrzyki Dolne</p>
+          <p class="text-amber-800 font-medium">tel. 603 131 190</p>
+        </div>
+      </div>
+
+      <!-- Cienki pasek na dole -->
+      <div class="mt-20 pt-12 border-t border-gray-200 max-w-7xl mx-auto"></div>
+    </div>
+
+    <!-- NOWY: MINIMALISTYCZNY POMARAŃCZOWY PASEK KONTAKTOWY -->
+    <div class="bg-gradient-to-r from-amber-600 to-amber-700 py-8 mt-20">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-8 text-white text-lg md:text-xl font-medium">
+        <div class="flex items-center gap-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+          </svg>
+          <a href="tel:603131190" class="hover:underline">603 131 190</a>
+        </div>
+        <div class="hidden md:block w-px h-10 bg-white/30"></div>
+        <div class="flex items-center gap-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          <a href="mailto:info@bieszczadzkiogrod.pl" class="hover:underline">info@bieszczadzkiogrod.pl</a>
         </div>
       </div>
     </div>

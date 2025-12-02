@@ -1,67 +1,72 @@
 <template>
-  <section class="relative py-16 bg-gradient-to-br from-emerald-50 via-amber-50 to-green-50 overflow-hidden" id="oferta-sezonowa">
-    <!-- Duży pasek "Specjalna Oferta" na górze -->
-    <div class="absolute top-0 left-0 right-0 bg-gradient-to-r from-red-600 via-red-500 to-red-600 py-4 shadow-2xl z-10">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="flex items-center justify-center gap-4">
-          <span class="text-4xl animate-pulse">🎄</span>
-          <h3 class="text-3xl md:text-4xl font-black text-white uppercase tracking-widest drop-shadow-lg">
-            ⭐ Specjalna Oferta Świąteczna ⭐
-          </h3>
-          <span class="text-4xl animate-pulse">🎄</span>
-        </div>
-      </div>
-    </div>
+  <section class="py-24 md:py-32 bg-white" id="oferta-sezonowa">
+    <!-- Cienki, elegancki pasek na górze -->
+    <div class="bg-gradient-to-r from-red-700 to-amber-700 h-1"></div>
+    <div class="bg-gradient-to-r from-red-700 to-amber-700 h-px"></div>
 
-    <div class="relative max-w-7xl mx-auto px-6 pt-24">
-      <!-- Wyrazisty nagłówek -->
-      <div class="text-center mb-12">
-        <h2 class="text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-green-600 to-emerald-800 mb-4 leading-tight drop-shadow-xl">
+    <div class="max-w-5xl mx-auto px-6">
+      <!-- Minimalistyczny nagłówek -->
+      <div class="text-center mb-20">
+        <p class="text-sm md:text-base font-medium text-gray-600 tracking-widest uppercase mb-4">
+          Specjalna oferta sezonowa
+        </p>
+        <h2 class="text-5xl md:text-7xl font-bold text-gray-900">
           Jodły Kaukaskie
         </h2>
-        <p class="text-3xl font-bold text-red-600 drop-shadow-md">
-          Prawdziwy zapach Świąt już czeka!
-        </p>
+        <div class="w-24 h-1 bg-amber-700 mx-auto mt-8"></div>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <!-- Zdjęcie choinki -->
+      <div class="grid md:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <!-- Zdjęcie – czyste, z cienką ramką -->
         <div class="order-2 md:order-1">
-          <div class="rounded-2xl overflow-hidden shadow-2xl border-4 border-emerald-200 hover:border-emerald-400 transition-all duration-300 transform hover:scale-105">
-            <img src="/choinki.jpg" alt="Piękne jodły kaukaskie na Święta" class="w-full h-full object-cover" />
+          <div class="relative group">
+            <div class="absolute inset-0 bg-amber-100 rounded-lg transform rotate-3 group-hover:rotate-6 transition duration-700 -z-10"></div>
+            <img 
+              src="/choinki.jpg" 
+              alt="Jodła kaukaska premium" 
+              class="w-full h-auto rounded-lg shadow-xl relative z-10 transition-transform duration-700 group-hover:scale-[1.02]"
+            />
           </div>
         </div>
 
-        <!-- Tekst -->
-        <div class="order-1 md:order-2 bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border-2 border-emerald-100">
-          <p class="text-2xl text-emerald-700 font-semibold text-center mb-6">♡ Kochani!!</p>
+        <!-- Tekst – minimalistyczny, elegancki -->
+        <div class="order-1 md:order-2 space-y-8 text-gray-700">
+          <p class="text-3xl font-light leading-relaxed">
+            Z dumą prezentujemy tegoroczną kolekcję <span class="font-serif italic text-amber-800">jodeł kaukaskich</span> – najpiękniejszych i najbardziej trwałych choinek na rynku.
+          </p>
 
-          <div class="space-y-4 text-gray-800 leading-relaxed">
+          <div class="space-y-5 text-lg leading-relaxed">
             <p>
-              Z wielką radością meldujemy – mamy już piękne <span class="font-semibold text-emerald-700">jodły kaukaskie</span> na Święta! ♡
+              Każde drzewko pochodzi z certyfikowanej plantacji, jest ręcznie selekcjonowane i transportowane w idealnych warunkach, by zachować świeżość i intensywny zapach lasu.
             </p>
-
             <p>
-              Pierwsze transporty prosto z plantacji właśnie do nas dotarły i pachną lasem tak mocno, że aż się uśmiechamy na samą myśl o Waszych domach pełnych tego zapachu.
+              Gęste, miękkie igliwie, perfekcyjny pokrój i trwałość nawet do 6 tygodni – to znak rozpoznawczy jodły kaukaskiej.
             </p>
+          </div>
 
-            <p>
-              W ofercie tylko <span class="font-semibold text-emerald-700">jodła kaukaska</span> – najpiękniejsza, najtrwalsza i najbardziej „świąteczna". Pochodzi z najlepszych plantacji i z uprawy naturalnej – to Ty decydujesz, które drzewko pokocha Twoja rodzina.
+          <div class="pt-6">
+            <div class="flex items-center gap-4 text-gray-800">
+              <span class="text-sm uppercase tracking-wider text-gray-500">Wysokość</span>
+              <span class="text-2xl font-medium">1,5 – 3,5 m</span>
+            </div>
+          </div>
+
+          <div class="pt-8">
+            <p class="text-xl text-gray-800 leading-relaxed">
+              Zapraszamy do Bieszczadzkiego Ogrodu w Moczarach – wybierz swoją idealną choinkę osobiście.
             </p>
-
-            <p class="font-semibold text-emerald-800">
-              Wysokość: od 1,5 m do około 3,5 m – mamy rozmiar idealny do każdego domu i mieszkania.
-            </p>
-
-            <p class="text-lg font-semibold text-emerald-700 mt-6">
-              Zapraszamy serdecznie do Bieszczadzkiego Ogrodu w Moczarach – tu wybierzesz, dotkniesz, powąchasz i zabierzesz ze sobą kawałek prawdziwego, żywego Bożego Narodzenia ♡
-            </p>
-
-            <p class="text-center italic text-amber-700 mt-4">
-              Czekamy na Was z gorącą herbatą i uśmiechem!
+            <p class="text-sm text-gray-500 mt-3">
+              Czynne codziennie w godzinach 9:00 – 17:00 · tel. 603 131 190
             </p>
           </div>
         </div>
+      </div>
+
+      <!-- Cienki pasek na dole -->
+      <div class="mt-24 pt-12 border-t border-gray-200">
+        <p class="text-center text-gray-500 text-sm tracking-wider">
+          Do zobaczenia wśród choinek
+        </p>
       </div>
     </div>
   </section>
