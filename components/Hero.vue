@@ -56,17 +56,17 @@ const products = [
   { id: 24, name: 'Sałatka z Gyrosem', image: '/gyros1.jpg', desc: 'Idealna na imprezę.', sklad: 'Warzywa, przyprawa gyros.', inStock: true, category: 'wlasne' },
 
   // === PRODUKTY NA WAGĘ (25–34) ===
-  { id: 25, name: 'Pomidory', image: '/pomidory.jpg', desc: 'Świeżo łuskane orzechy włoskie – prosto z sadu.',  inStock: true, category: 'waga' },
-  { id: 26, name: 'Ogórki', image: '/ogórki.jpg', desc: 'Chrupiące migdały naturalne.', sklad: '100% migdały', inStock: true, category: 'waga',},
-  { id: 27, name: 'Ziemniaki', image: '/ziemniaki.jpg', desc: 'Polskie pestki dyni – prażone lub surowe.', sklad: '100% pestki dyni', inStock: true, category: 'waga' },
-  { id: 28, name: 'Czosnek', image: '/czosnek.jpg', desc: 'Idealny do sałatek i przekąsek.', sklad: '100% słonecznik', inStock: true, category: 'waga' },
-  { id: 29, name: 'Papryka', image: '/papryczka.jpg', desc: 'Słodkie, mięsiste morele bez siarki.', sklad: '100% morele suszone', inStock: true, category: 'waga' },
-  { id: 30, name: 'Rzodkiewka', image: '/rzodkiewka.jpg', desc: 'Słodkie i soczyste.', sklad: '100% rodzynki', inStock: true, category: 'waga' },
-  { id: 31, name: 'Marchewka', image: '/marchew.jpg', desc: 'Naturalna, bez dodatku cukru.', sklad: '100% żurawina', inStock: true, category: 'waga' },
-  { id: 32, name: 'Jabłka', image: '/jabłka.jpg', desc: 'Złote lub brązowe – do wypieku i zdrowia.', sklad: '100% siemię lniane', inStock: true, category: 'waga' },
-  { id: 33, name: 'Buraki', image: '/buraki.jpg', desc: 'Do bułek, sałatek i chałek.', sklad: '100% sezam', inStock: true, category: 'waga' },
-  { id: 34, name: 'Gruszka', image: '/gruszka.jpg', desc: 'Świeżo mielony lub cały – do makowca.', sklad: '100% mak niebieski', inStock: true, category: 'waga' },
-  { id: 35, name: 'Jajka Swojskie', image: '/jajka.jpg', desc: 'Świeżo mielony lub cały – do makowca.', sklad: '100% mak niebieski', inStock: true, category: 'waga' },
+  { id: 25, name: 'Pomidory', image: '/pomidory1.jpg', desc: 'Pomidory',  inStock: true, category: 'waga' },
+  { id: 26, name: 'Ogórki', image: '/ogorki1.jpg', desc: 'Ogórki', inStock: false, category: 'waga',},
+  { id: 27, name: 'Ziemniaki', image: '/ziemniaki1.jpg', desc: 'Ziemniaki', inStock: true, category: 'waga' },
+  { id: 28, name: 'Czosnek', image: '/czosnek1.jpg', desc: 'Czosnek', inStock: true, category: 'waga' },
+  { id: 29, name: 'Papryka', image: '/papryczka1.jpg', desc: 'Papryka',  inStock: true, category: 'waga' },
+  { id: 30, name: 'Rzodkiewka', image: '/rzodkiewka1.jpg', desc: 'Rzodkiewka',  inStock: true, category: 'waga' },
+  { id: 31, name: 'Marchewka', image: '/marchewka1.jpg', desc: 'Marchewka',  inStock: true, category: 'waga' },
+  { id: 32, name: 'Jabłka', image: '/jablka1.jpg', desc: 'Jabłka',  inStock: true, category: 'waga' },
+  { id: 33, name: 'Buraki', image: '/buraki.jpg', desc: 'Buraki',  inStock: true, category: 'waga' },
+  { id: 34, name: 'Gruszka', image: '/gruszka1.jpg', desc: 'Gruszka',  inStock: true, category: 'waga' },
+  { id: 35, name: 'Jajka Swojskie', image: '/jajkasw1.jpg', desc: 'Jajka swojskie dostepne na zamówienie z wyprzedzeniem',  inStock: true, category: 'waga' },
 ]
 
 const filteredProducts = computed(() => {
@@ -190,7 +190,7 @@ const filteredProducts = computed(() => {
             603 131 190
           </a>
           <p class="text-white text-lg mt-4">
-            Rezerwacja i odbiór tylko osobiście • Płatność gotówką
+            • Mozliwość dokonania rezerwacji tylko przez telefon • Płatność gotówką 
           </p>
         </div>
 
@@ -203,21 +203,71 @@ const filteredProducts = computed(() => {
       </div>
     </section>
 
-    <!-- MODAL – bez zmian (działa też dla produktów na wagę) -->
+    <!-- MODAL Z OPISEM I SKŁADEM -->
     <Teleport to="body">
-      <!-- ... ten sam modal co wcześniej ... -->
-      <!-- (nie wklejam drugi raz – działa idealnie) -->
+      <div v-if="isModalOpen" @click="closeModal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div @click.stop class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+          <!-- Przycisk zamknij - absolutny, prawy górny róg -->
+          <button @click="closeModal" class="absolute top-4 right-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-100 transition z-10">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+
+          <!-- Layout poziomy: zdjęcie po lewej, opis po prawej -->
+          <div class="flex flex-col md:flex-row">
+            <!-- Zdjęcie kwadratowe po lewej -->
+            <div class="md:w-2/5 flex-shrink-0 bg-gray-100 flex items-center justify-center md:rounded-l-3xl rounded-t-3xl md:rounded-tr-none overflow-hidden">
+              <img :src="selectedProduct?.image" :alt="selectedProduct?.name" class="w-full h-full object-contain p-4" />
+            </div>
+
+            <!-- Treść po prawej -->
+            <div class="flex-1 p-8">
+              <h2 class="text-3xl font-bold text-emerald-800 mb-4">{{ selectedProduct?.name }}</h2>
+
+              <!-- Status dostępności -->
+              <div class="mb-4">
+                <span v-if="selectedProduct?.inStock" class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-full font-bold text-sm">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  Dostępny
+                </span>
+                <span v-else class="inline-flex items-center gap-2 px-4 py-2 bg-red-100 text-red-800 rounded-full font-bold text-sm">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                  </svg>
+                  Brak na stanie
+                </span>
+              </div>
+
+              <!-- Badge "NA WAGĘ" -->
+              <div v-if="selectedProduct?.category === 'waga'" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-full font-bold text-sm mb-4">
+                NA WAGĘ
+              </div>
+
+              <!-- Opis -->
+              <div class="mb-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Opis</h3>
+                <p class="text-gray-700 leading-relaxed">{{ selectedProduct?.desc }}</p>
+              </div>
+
+              <!-- Skład (jeśli istnieje) -->
+              <div v-if="selectedProduct?.sklad" class="mb-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Skład</h3>
+                <p class="text-gray-700 leading-relaxed">{{ selectedProduct?.sklad }}</p>
+              </div>
+
+              <!-- Przycisk zamknij -->
+              <button @click="closeModal" class="w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition shadow-lg mt-6">
+                Zamknij
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </Teleport>
 
-    <!-- MINI KONTAKT -->
-    <section class="bg-emerald-700 text-white py-8">
-      <div class="max-w-7xl mx-auto px-6 text-center">
-        <p class="text-lg md:text-2xl font-bold leading-tight">
-          Rezerwacja i odbiór tylko osobiście 
-          <a href="tel:603131190" class="underline hover:text-amber-300">603 131 190</a> (Mirek)
-          • Płatność gotówką • Czekam z kawą i uśmiechem!
-        </p>
-      </div>
-    </section>
+  
   </div>
 </template>
