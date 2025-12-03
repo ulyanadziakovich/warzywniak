@@ -10,6 +10,7 @@ const isModalOpen = ref(false)
 const sortBy = ref<'all' | 'wlasne' | 'waga'>('all')
 const isMobile = ref(false)
 const viewMode = ref<'grid' | 'list'>('list') // Domyślnie lista na mobile
+const isSearchExpanded = ref(false) // Stan rozwinięcia wyszukiwarki
 
 // === ULUBIONE I WYSZUKIWANIE ===
 const { searchQuery, isFavoritesView, favorites, toggleFavorite, isFavorite, favoritesCount, toggleFavoritesView } = useProductFilters()
@@ -50,7 +51,7 @@ const closeModal = () => {
 // === PRODUKTY (bez zmian) ===
 const products = [
   // ... (cała Twoja tablica produktów – zostawiam dokładnie taką, jak miałeś) ...
-  { id: 1, name: 'Konfitura z Jagody Kamczackiej', image: '/jagoda1.jpg', desc: 'Słodka, aromatyczna konfitura z dojrzałych jagód kamczackich.', sklad: 'Jagoda kamczacka, cukier, pektyny, woda. 80g owoców/100g.', inStock: true, category: 'wlasne' },
+  { id: 1, name: 'Konfitura z Jagody Kamczackiej', image: '/konfitura au.jpg', desc: 'Słodka, aromatyczna konfitura z dojrzałych jagód kamczackich.', sklad: 'Jagoda kamczacka, cukier, pektyny, woda. 80g owoców/100g.', inStock: true, category: 'wlasne' },
   { id: 2, name: 'Konfitura z Jagody Kamczackiej i Truskawka', image: '/truskawka1.jpg', desc: 'Połączenie jagód kamczackich z truskawkami.', sklad: 'Jagoda kamczacka, truskawka, cukier, pektyny.', inStock: true, category: 'wlasne' },
   { id: 3, name: 'Ogórki Kiszone', image: '/ogorkikiszone1.jpg', desc: 'Tradycyjnie kiszone – chrupiące i aromatyczne.', sklad: 'Ogórki 65%, woda, sól, czosnek, koperek, chrzan.', inStock: true, category: 'wlasne' },
   { id: 4, name: 'Ogórki z Curry', image: '/ogorkicurry1.jpg', desc: 'Pikantno-słodkie w zalewie curry.', sklad: 'Ogórki 65%, woda, curry, cukier, cebula.', inStock: true, category: 'wlasne' },
@@ -65,8 +66,8 @@ const products = [
   { id: 13, name: 'Sok Jabłko z Miętą', image: '/sokjablkomieta1.jpg', desc: 'Orzeźwiający i naturalny.', sklad: 'Jabłko 97%, mięta 3%.', inStock: true, category: 'wlasne' },
   { id: 14, name: 'Syrop z Mniszka Lekarskiego', image: '/syropmniszek1.jpg', desc: 'Domowy miód z mniszka.', sklad: 'Kwiaty mniszka, cukier, cytryna.', inStock: true, category: 'wlasne' },
   { id: 15, name: 'Syrop z Kwiatów Czarnego Bzu', image: '/syropbez1.jpg', desc: 'Przeciwgrypowy hit!', sklad: 'Kwiaty bzu 51%, cukier, cytryna.', inStock: true, category: 'wlasne' },
-  { id: 16, name: 'Pesto z Czosnku Niedźwiedziego', image: '/pewsto1.jpg', desc: 'Intensywnie czosnkowe pesto.', sklad: 'Czosnek niedźwiedzi, olej, sól.', inStock: true, category: 'wlasne' },
-  { id: 17, name: 'Suszony czosnek niedźwiedzi', image: '/pewsto1.jpg', desc: 'Idealny do każdej potrawy.', sklad: '100% czosnek niedźwiedzi suszony.', inStock: 'wlasne' },
+  { id: 16, name: 'Pesto z Czosnku Niedźwiedziego', image: '/pestoau.jpg', desc: 'Intensywnie czosnkowe pesto.', sklad: 'Czosnek niedźwiedzi, olej, sól.', inStock: true, category: 'wlasne' },
+  { id: 17, name: 'Suszony czosnek niedźwiedzi', image: '/pestoau.jpg', desc: 'Idealny do każdej potrawy.', sklad: '100% czosnek niedźwiedzi suszony.', inStock: 'wlasne' },
   { id: 18, name: 'Jabłka Suszone', image: '/jablkasuszone1.jpg', desc: 'Chrupiąca, zdrowa przekąska.', sklad: '100% jabłka.', inStock: true, category: 'wlasne' },
   { id: 19, name: 'Dżem Truskawkowy', image: '/dzem1.jpg', desc: 'Z całych truskawek.', sklad: 'Truskawka, cukier, pektyny.', inStock: true, category: 'wlasne' },
   { id: 20, name: 'Powidła Śliwkowe', image: '/powidla1.jpg', desc: 'Gęste, długo gotowane.', sklad: 'Śliwki 192g/100g, cukier.', inStock: true, category: 'wlasne' },
@@ -149,55 +150,66 @@ const shouldShowMoreButton = computed(() => {
     <section class="py-10 border-b-8 border-amber-600">
       <div class="max-w-7xl mx-auto px-6">
         <!-- Wyszukiwarka i ulubione - tylko mobile -->
-        <div class="md:hidden mb-6 space-y-3">
-          <!-- Wyszukiwarka mobilna -->
-          <div class="relative">
-            <input
-              v-model="searchQuery"
-              type="text"
-              placeholder="Szukaj produktu..."
-              class="w-full pl-10 pr-4 py-3 rounded-full bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-lg border-2 border-amber-200"
-            />
-            <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-          </div>
+        <div class="md:hidden mb-4 space-y-3">
+          <!-- Kompaktowy pasek ikon -->
+          <div class="flex gap-3 items-center">
+            <!-- Ikona lupki -->
+            <button
+              @click="isSearchExpanded = !isSearchExpanded"
+              class="p-3 rounded-full bg-white hover:bg-gray-50 transition shadow-lg border-2 border-amber-200 flex items-center justify-center"
+              :class="{ 'bg-amber-50 border-amber-400': isSearchExpanded }"
+            >
+              <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </button>
 
-          <!-- Ulubione i przełącznik widoku -->
-          <div class="flex gap-3">
+            <!-- Ulubione - tylko ikona -->
             <button
               @click="toggleFavoritesView"
-              class="flex-1 py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-lg border-2 border-amber-200 flex items-center justify-center gap-2"
+              class="relative p-3 rounded-full bg-white hover:bg-gray-50 transition shadow-lg border-2 border-amber-200 flex items-center justify-center"
               :class="{ 'bg-red-50 border-red-300': isFavoritesView }"
             >
               <svg class="w-6 h-6" :class="isFavoritesView ? 'text-red-500 fill-red-500' : 'text-amber-700'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
               </svg>
-              <span class="font-bold text-gray-800">Ulubione</span>
-              <span v-if="favoritesCount > 0" class="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold shadow-md">
+              <span v-if="favoritesCount > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-md">
                 {{ favoritesCount }}
               </span>
             </button>
 
-            <!-- Przełącznik widoku -->
-            <button
-              @click="viewMode = viewMode === 'grid' ? 'list' : 'grid'"
-              class="py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-lg border-2 border-amber-200 flex items-center justify-center"
-              :title="viewMode === 'grid' ? 'Przełącz na listę' : 'Przełącz na siatkę'"
+            <!-- Dropdown sortowania -->
+            <select
+              v-model="sortBy"
+              @change="showAll = false"
+              class="flex-1 py-3 px-4 rounded-full bg-white text-amber-900 font-bold border-2 border-amber-200 shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400 appearance-none bg-no-repeat bg-right pr-10"
+              style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23b45309\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-size: 1.5em; background-position: right 0.5rem center;"
             >
-              <!-- Ikona siatki -->
-              <svg v-if="viewMode === 'list'" class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-              </svg>
-              <!-- Ikona listy -->
-              <svg v-else class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-              </svg>
-            </button>
+              <option value="all">Wszystkie produkty</option>
+              <option value="wlasne">Własne wyroby</option>
+              <option value="waga">Na wagę</option>
+            </select>
           </div>
+
+          <!-- Rozwijana wyszukiwarka -->
+          <Transition name="search">
+            <div v-if="isSearchExpanded" class="relative">
+              <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="Szukaj produktu..."
+                class="w-full pl-10 pr-4 py-3 rounded-full bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-lg border-2 border-amber-200"
+                autofocus
+              />
+              <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
+          </Transition>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-6">
+        <!-- Desktop - przyciski sortowania -->
+        <div class="hidden md:flex flex-wrap justify-center gap-6">
           <button @click="sortBy = 'all'; showAll = false"
                   :class="sortBy === 'all' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
                   class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition">
@@ -296,9 +308,6 @@ const shouldShowMoreButton = computed(() => {
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2 2z"/></svg>
                   NA WAGĘ
                 </span>
-                <span v-if="product.inStock" class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-semibold text-sm">
-                  Dostępny
-                </span>
               </div>
             </div>
           </div>
@@ -346,8 +355,7 @@ const shouldShowMoreButton = computed(() => {
             <div class="p-6 md:p-10">
               <h2 class="text-3xl md:text-4xl font-bold text-amber-900 mb-4 md:mb-6">{{ selectedProduct?.name }}</h2>
               <div class="flex items-center gap-3 mb-6 flex-wrap">
-                <span v-if="selectedProduct?.inStock" class="px-4 py-2 bg-amber-100 text-amber-800 rounded-full font-bold text-sm">Dostępny</span>
-                <span v-else class="px-4 py-2 bg-red-100 text-red-800 rounded-full font-bold text-sm">Brak na stanie</span>
+                <span v-if="!selectedProduct?.inStock" class="px-4 py-2 bg-red-100 text-red-800 rounded-full font-bold text-sm">Brak na stanie</span>
                 <span v-if="selectedProduct?.category === 'waga'" class="px-4 py-2 bg-amber-600 text-white rounded-full font-bold text-sm">NA WAGĘ</span>
               </div>
               <div class="space-y-6 text-gray-700">
@@ -598,5 +606,21 @@ const shouldShowMoreButton = computed(() => {
 
 .space-y-4 > div:active {
   transform: scale(0.98);
+}
+
+/* Animacja rozwijania wyszukiwarki */
+.search-enter-active,
+.search-leave-active {
+  transition: all 0.3s ease;
+}
+
+.search-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.search-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>
