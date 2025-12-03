@@ -9,6 +9,7 @@ const selectedProduct = ref<any>(null)
 const isModalOpen = ref(false)
 const sortBy = ref<'all' | 'wlasne' | 'waga'>('all')
 const isMobile = ref(false)
+const viewMode = ref<'grid' | 'list'>('list') // Domyślnie lista na mobile
 
 // === ULUBIONE I WYSZUKIWANIE ===
 const { searchQuery, isFavoritesView, favorites, toggleFavorite, isFavorite, favoritesCount, toggleFavoritesView } = useProductFilters()
@@ -108,7 +109,8 @@ const filteredProducts = computed(() => {
 
   // Limituj produkty jeśli nie showAll i nie ma wyszukiwania
   if (!showAll.value && !searchQuery.value.trim() && !isFavoritesView.value) {
-    const limit = isMobile.value ? 4 : 15
+    // W widoku listy pokazujemy więcej produktów (8), w siatce mniej (4)
+    const limit = isMobile.value ? (viewMode.value === 'list' ? 8 : 4) : 15
     result = result.slice(0, limit)
   }
 
@@ -127,7 +129,8 @@ const totalProductsInCategory = computed(() => {
 
 // Czy pokazać przycisk "Pokaż więcej"
 const shouldShowMoreButton = computed(() => {
-  return !searchQuery.value.trim() && !isFavoritesView.value && totalProductsInCategory.value > (isMobile.value ? 4 : 15)
+  const limit = isMobile.value ? (viewMode.value === 'list' ? 8 : 4) : 15
+  return !searchQuery.value.trim() && !isFavoritesView.value && totalProductsInCategory.value > limit
 })
 </script>
 
@@ -154,20 +157,38 @@ const shouldShowMoreButton = computed(() => {
             </svg>
           </div>
 
-          <!-- Ulubione mobilne -->
-          <button
-            @click="toggleFavoritesView"
-            class="w-full py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-lg border-2 border-amber-200 flex items-center justify-center gap-3"
-            :class="{ 'bg-red-50 border-red-300': isFavoritesView }"
-          >
-            <svg class="w-6 h-6" :class="isFavoritesView ? 'text-red-500 fill-red-500' : 'text-amber-700'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-            </svg>
-            <span class="font-bold text-gray-800">Ulubione</span>
-            <span v-if="favoritesCount > 0" class="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold shadow-md">
-              {{ favoritesCount }}
-            </span>
-          </button>
+          <!-- Ulubione i przełącznik widoku -->
+          <div class="flex gap-3">
+            <button
+              @click="toggleFavoritesView"
+              class="flex-1 py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-lg border-2 border-amber-200 flex items-center justify-center gap-2"
+              :class="{ 'bg-red-50 border-red-300': isFavoritesView }"
+            >
+              <svg class="w-6 h-6" :class="isFavoritesView ? 'text-red-500 fill-red-500' : 'text-amber-700'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+              <span class="font-bold text-gray-800">Ulubione</span>
+              <span v-if="favoritesCount > 0" class="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold shadow-md">
+                {{ favoritesCount }}
+              </span>
+            </button>
+
+            <!-- Przełącznik widoku -->
+            <button
+              @click="viewMode = viewMode === 'grid' ? 'list' : 'grid'"
+              class="py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-lg border-2 border-amber-200 flex items-center justify-center"
+              :title="viewMode === 'grid' ? 'Przełącz na listę' : 'Przełącz na siatkę'"
+            >
+              <!-- Ikona siatki -->
+              <svg v-if="viewMode === 'list'" class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+              </svg>
+              <!-- Ikona listy -->
+              <svg v-else class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div class="flex flex-wrap justify-center gap-6">
@@ -194,7 +215,8 @@ const shouldShowMoreButton = computed(() => {
     <!-- SIATKA PRODUKTÓW -->
     <section class="py-16 md:py-24">
       <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+        <!-- Widok siatki -->
+        <div v-if="viewMode === 'grid' || !isMobile" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           <!-- kafelki produktów – bez zmian, tylko kolory dopasowane do bursztynu -->
           <div v-for="product in filteredProducts" :key="product.id"
                @click="openModal(product)"
@@ -232,6 +254,53 @@ const shouldShowMoreButton = computed(() => {
           </div>
         </div>
 
+        <!-- Widok listy (tylko mobile) -->
+        <div v-else class="space-y-4">
+          <div v-for="product in filteredProducts" :key="product.id"
+               @click="openModal(product)"
+               class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer relative border border-amber-100 flex">
+
+            <button @click.stop="toggleFavorite(product.id)"
+                    class="absolute top-3 right-3 z-20 p-2.5 rounded-full bg-white/95 backdrop-blur shadow-md hover:shadow-lg transition"
+                    :class="{ 'ring-2 ring-red-400 bg-red-50': isFavorite(product.id) }">
+              <svg class="w-5 h-5" :class="isFavorite(product.id) ? 'text-red-600 fill-red-600' : 'text-gray-600'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+
+            <div v-if="!product.inStock" class="absolute inset-0 bg-black/50 rounded-2xl flex items-center justify-center z-10">
+              <span class="bg-red-600 text-white px-6 py-3 rounded-full text-lg font-bold shadow-2xl">Brak</span>
+            </div>
+
+            <!-- Obrazek po lewej -->
+            <div class="w-56 h-56 flex-shrink-0 bg-amber-50 relative">
+              <img :src="product.image || '/placeholder.jpg'" :alt="product.name"
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                   :class="{ 'grayscale opacity-60': !product.inStock }"
+                   loading="lazy" />
+            </div>
+
+            <!-- Treść po prawej -->
+            <div class="flex-1 p-5 flex flex-col justify-center">
+              <h3 class="font-bold text-amber-900 text-lg leading-tight mb-2">
+                {{ product.name }}
+              </h3>
+              <p class="text-base text-gray-600 line-clamp-2 mb-3">
+                {{ product.desc }}
+              </p>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span v-if="product.category === 'waga'" class="bg-amber-600 text-white px-3 py-1 rounded-full font-bold text-xs flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2 2z"/></svg>
+                  NA WAGĘ
+                </span>
+                <span v-if="product.inStock" class="bg-green-100 text-green-800 px-3 py-1 rounded-full font-semibold text-xs">
+                  Dostępny
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- CTA ulubione -->
         <div v-if="isFavoritesView" class="mt-20 p-10 bg-gradient-to-r from-amber-600 to-amber-500 rounded-3xl shadow-2xl text-center text-white">
           <p class="text-2xl md:text-4xl font-bold mb-6">Zarezerwuj swoje ulubione produkty!</p>
@@ -256,30 +325,33 @@ const shouldShowMoreButton = computed(() => {
 
     <!-- MODAL – dopasowany do bursztynu -->
     <Teleport to="body">
-      <div v-if="isModalOpen" @click="closeModal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 backdrop-blur-md">
-        <div @click.stop class="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl">
-          <button @click="closeModal" class="absolute top-4 right-4 w-12 h-12 bg-amber-100 rounded-full shadow-lg hover:bg-amber-200 transition z-10 flex items-center justify-center">
+      <div v-if="isModalOpen" @click="closeModal" class="fixed inset-0 bg-black/90 z-50 flex items-start justify-center overflow-y-auto backdrop-blur-md">
+        <div @click.stop class="bg-white w-full max-w-3xl min-h-screen md:min-h-0 md:my-4 md:rounded-3xl shadow-2xl relative">
+          <button @click="closeModal" class="sticky top-4 right-4 ml-auto mr-4 w-12 h-12 bg-amber-100 rounded-full shadow-lg hover:bg-amber-200 transition z-20 flex items-center justify-center">
             <svg class="w-7 h-7 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
 
-          <div class="flex flex-col md:flex-row">
-            <div class="md:w-2/5 bg-amber-50 flex items-center justify-center p-8 rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none">
-              <img :src="selectedProduct?.image" :alt="selectedProduct?.name" class="max-w-full max-h-96 object-contain" />
+          <div class="flex flex-col">
+            <!-- Obrazek - prawie cały ekran -->
+            <div class="w-full bg-amber-50 flex items-center justify-center p-4 md:p-8">
+              <img :src="selectedProduct?.image" :alt="selectedProduct?.name" class="w-full h-auto max-h-[85vh] md:max-h-[70vh] object-contain rounded-2xl shadow-lg" />
             </div>
-            <div class="p-8 md:p-10">
-              <h2 class="text-4xl font-bold text-amber-900 mb-6">{{ selectedProduct?.name }}</h2>
-              <div class="flex items-center gap-4 mb-6">
-                <span v-if="selectedProduct?.inStock" class="px-6 py-3 bg-amber-100 text-amber-800 rounded-full font-bold">Dostępny</span>
-                <span v-else class="px-6 py-3 bg-red-100 text-red-800 rounded-full font-bold">Brak na stanie</span>
-                <span v-if="selectedProduct?.category === 'waga'" class="px-6 py-3 bg-amber-600 text-white rounded-full font-bold">NA WAGĘ</span>
+
+            <!-- Treść do scrollowania -->
+            <div class="p-6 md:p-10">
+              <h2 class="text-3xl md:text-4xl font-bold text-amber-900 mb-4 md:mb-6">{{ selectedProduct?.name }}</h2>
+              <div class="flex items-center gap-3 mb-6 flex-wrap">
+                <span v-if="selectedProduct?.inStock" class="px-4 py-2 bg-amber-100 text-amber-800 rounded-full font-bold text-sm">Dostępny</span>
+                <span v-else class="px-4 py-2 bg-red-100 text-red-800 rounded-full font-bold text-sm">Brak na stanie</span>
+                <span v-if="selectedProduct?.category === 'waga'" class="px-4 py-2 bg-amber-600 text-white rounded-full font-bold text-sm">NA WAGĘ</span>
               </div>
               <div class="space-y-6 text-gray-700">
-                <div><h3 class="text-xl font-bold text-amber-800 mb-2">Opis</h3><p class="leading-relaxed">{{ selectedProduct?.desc }}</p></div>
-                <div v-if="selectedProduct?.sklad"><h3 class="text-xl font-bold text-amber-800 mb-2">Skład</h3><p class="leading-relaxed">{{ selectedProduct?.sklad }}</p></div>
+                <div><h3 class="text-xl font-bold text-amber-800 mb-2">Opis</h3><p class="leading-relaxed text-base">{{ selectedProduct?.desc }}</p></div>
+                <div v-if="selectedProduct?.sklad"><h3 class="text-xl font-bold text-amber-800 mb-2">Skład</h3><p class="leading-relaxed text-base">{{ selectedProduct?.sklad }}</p></div>
               </div>
-              <button @click="closeModal" class="w-full mt-10 py-5 bg-amber-600 hover:bg-amber-700 text-white text-xl font-bold rounded-xl shadow-xl transition">
+              <button @click="closeModal" class="w-full mt-8 py-4 bg-amber-600 hover:bg-amber-700 text-white text-lg font-bold rounded-xl shadow-xl transition">
                 Zamknij
               </button>
             </div>
@@ -484,5 +556,43 @@ const shouldShowMoreButton = computed(() => {
   .grid h3 {
     font-size: 0.75rem !important;
   }
+
+  /* Widok listy - dostosowane obrazki na bardzo małych ekranach */
+  .space-y-4 > div {
+    min-height: 170px;
+  }
+
+  .space-y-4 .w-56 {
+    width: 160px !important;
+    height: 160px !important;
+  }
+
+  .space-y-4 .flex-1 {
+    padding: 1rem !important;
+  }
+
+  .space-y-4 h3 {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.375rem !important;
+  }
+
+  .space-y-4 p {
+    font-size: 0.75rem !important;
+    margin-bottom: 0.375rem !important;
+  }
+
+  .space-y-4 .flex.items-center.gap-2 span {
+    font-size: 0.625rem !important;
+    padding: 0.25rem 0.625rem !important;
+  }
+}
+
+/* Styl dla widoku listy */
+.space-y-4 > div {
+  transition: all 0.3s ease;
+}
+
+.space-y-4 > div:active {
+  transform: scale(0.98);
 }
 </style>
