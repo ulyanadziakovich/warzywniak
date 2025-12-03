@@ -11,7 +11,7 @@ const sortBy = ref<'all' | 'wlasne' | 'waga'>('all')
 const isMobile = ref(false)
 
 // === ULUBIONE I WYSZUKIWANIE ===
-const { searchQuery, isFavoritesView, favorites, toggleFavorite, isFavorite } = useProductFilters()
+const { searchQuery, isFavoritesView, favorites, toggleFavorite, isFavorite, favoritesCount, toggleFavoritesView } = useProductFilters()
 
 // Sprawdź, czy jesteśmy na mobile
 const checkMobile = () => {
@@ -134,6 +134,37 @@ const shouldShowMoreButton = computed(() => {
     <!-- PRZYCISKI SORTOWANIA – bursztynowe, spójne -->
     <section class="py-10 border-b-8 border-amber-600">
       <div class="max-w-7xl mx-auto px-6">
+        <!-- Wyszukiwarka i ulubione - tylko mobile -->
+        <div class="md:hidden mb-6 space-y-3">
+          <!-- Wyszukiwarka mobilna -->
+          <div class="relative">
+            <input
+              v-model="searchQuery"
+              type="text"
+              placeholder="Szukaj produktu..."
+              class="w-full pl-10 pr-4 py-3 rounded-full bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-lg border-2 border-amber-200"
+            />
+            <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+
+          <!-- Ulubione mobilne -->
+          <button
+            @click="toggleFavoritesView"
+            class="w-full py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-lg border-2 border-amber-200 flex items-center justify-center gap-3"
+            :class="{ 'bg-red-50 border-red-300': isFavoritesView }"
+          >
+            <svg class="w-6 h-6" :class="isFavoritesView ? 'text-red-500 fill-red-500' : 'text-amber-700'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            <span class="font-bold text-gray-800">Ulubione</span>
+            <span v-if="favoritesCount > 0" class="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold shadow-md">
+              {{ favoritesCount }}
+            </span>
+          </button>
+        </div>
+
         <div class="flex flex-wrap justify-center gap-6">
           <button @click="sortBy = 'all'; showAll = false"
                   :class="sortBy === 'all' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
@@ -147,7 +178,7 @@ const shouldShowMoreButton = computed(() => {
           </button>
           <button @click="sortBy = 'waga'; showAll = false"
                   :class="sortBy === 'waga' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
-                  class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition flex items-center gap-3">
+                  class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition flex items-center justify-center gap-3">
             <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2 2z"/></svg>
             Na wagę
           </button>

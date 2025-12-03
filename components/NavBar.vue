@@ -116,19 +116,6 @@
     <!-- Mobilne menu (wysuwane z dołu) -->
     <div v-if="mobileOpen" class="md:hidden fixed left-0 right-0 bottom-0 bg-gradient-to-br from-orange-600 to-amber-600 overflow-y-auto z-[110]" style="top: 80px;">
       <div class="py-6 px-6 space-y-4">
-        <!-- Wyszukiwarka mobilna -->
-        <div class="relative">
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Szukaj produktu..."
-            class="w-full pl-10 pr-4 py-3 rounded-full bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white shadow-md"
-          />
-          <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-        </div>
-
         <!-- Linki mobilne -->
         <NuxtLink to="/" @click="mobileOpen = false" class="w-full py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-md flex items-center justify-center gap-3">
           <span class="font-bold text-gray-800">Strona główna</span>
@@ -146,29 +133,43 @@
           <span class="font-bold text-gray-800">Nasz Gościniec</span>
         </a>
 
-        <!-- Ulubione mobilne -->
-        <button
-          @click="toggleFavoritesView(); mobileOpen = false"
-          class="w-full py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-md flex items-center justify-center gap-3"
-          :class="{ 'bg-red-50': isFavoritesView }"
-        >
-          <svg class="w-6 h-6" :class="isFavoritesView ? 'text-red-500 fill-red-500' : 'text-gray-700'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-          </svg>
-          <span class="font-bold text-gray-800">Ulubione</span>
-          <span v-if="favoritesCount > 0" class="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-            {{ favoritesCount }}
-          </span>
-        </button>
-
         <!-- Kontakt mobilny -->
-        <button @click="showContact = !showContact; mobileOpen = false" class="w-full py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-md flex items-center justify-center gap-3">
-          <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-          </svg>
-          <span class="font-bold text-gray-800">Kontakt</span>
-        </button>
+        <div class="space-y-3">
+          <button @click="showContact = !showContact" class="w-full py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-md flex items-center justify-center gap-3">
+            <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+            <span class="font-bold text-gray-800">Kontakt</span>
+            <svg class="w-5 h-5 text-gray-600 transition-transform" :class="{ 'rotate-180': showContact }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <!-- Rozwijana sekcja kontaktowa -->
+          <div v-if="showContact" class="bg-white/95 rounded-2xl p-5 space-y-4 shadow-lg">
+            <a href="tel:603131190" class="flex items-center gap-3 p-3 rounded-xl hover:bg-amber-50 transition">
+              <svg class="w-6 h-6 text-orange-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+              </svg>
+              <div class="text-left">
+                <div class="text-xs text-gray-500 font-medium">Telefon</div>
+                <div class="text-base font-bold text-gray-800">603 131 190</div>
+              </div>
+            </a>
+
+            <a href="mailto:info@bieszczadzkiogrod.pl" class="flex items-center gap-3 p-3 rounded-xl hover:bg-amber-50 transition">
+              <svg class="w-6 h-6 text-orange-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              </svg>
+              <div class="text-left">
+                <div class="text-xs text-gray-500 font-medium">Email</div>
+                <div class="text-sm font-bold text-gray-800 break-all">info@bieszczadzkiogrod.pl</div>
+              </div>
+            </a>
+          </div>
+        </div>
 
         <!-- Facebook mobilny -->
         <a href="https://www.facebook.com/BieszczadzkiOgrod?locale=pl_PL" target="_blank" rel="noopener" @click="mobileOpen = false" class="w-full py-3 px-4 rounded-full bg-blue-600 hover:bg-blue-700 transition shadow-md flex items-center justify-center gap-3">
