@@ -1,5 +1,5 @@
 <template>
-  <section class="py-24 md:py-32 bg-white" id="o-nas">
+  <section class="pt-24 md:pt-32 pb-0 bg-white" id="o-nas">
     <!-- Cienkie bursztynowe paski na górze -->
     <div class="bg-gradient-to-r from-amber-700 to-amber-600 h-1"></div>
     <div class="bg-gradient-to-r from-amber-700 to-amber-600 h-px"></div>
@@ -59,7 +59,7 @@
       <div class="mt-24 md:mt-32">
         <p class="text-center text-sm uppercase tracking-widest text-gray-600 mb-8">Gdzie nas znaleźć</p>
         <div class="w-full bg-gray-50 shadow-lg overflow-hidden">
-          <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://maps.google.com/maps?q=Moczary+39,+38-700+Ustrzyki+Dolne&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="420" style="border:0;" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="text-center mt-8 space-y-1 text-gray-700">
           <p class="font-medium">Moczary 39</p>

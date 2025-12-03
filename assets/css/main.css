@@ -1,0 +1,16 @@
+/* Reset domyślnych marginesów i paddingów */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Zapobiega białej przestrzeni na dole strony */
+body {
+  overflow-x: hidden;
+}
+
+#__nuxt {
+  min-height: 100vh;
+}

@@ -2,13 +2,13 @@
 <template>
   <nav class="fixed top-0 left-0 right-0 z-50 shadow-2xl backdrop-blur-sm">
     <!-- Lekkie drewniane tło -->
-    <div class="absolute inset-0 opacity-20">
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
       <img src="https://www.transparenttextures.com/patterns/wood-pattern.png" class="w-full h-full object-cover" />
     </div>
     <!-- Gradient z lepszym przejściem -->
-    <div class="absolute inset-0 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-500 opacity-95"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-500 opacity-95 pointer-events-none"></div>
     <!-- Subtelna nakładka dla głębi -->
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 pointer-events-none"></div>
 
     <div class="relative max-w-7xl mx-auto px-6 py-3">
       <div class="flex items-center justify-between">
@@ -92,7 +92,7 @@
         <!-- Hamburger na telefonie -->
         <div class="flex items-center gap-4">
           <!-- Hamburger (tylko na telefonie) -->
-          <button @click="mobileOpen = !mobileOpen" class="md:hidden p-3 relative z-50">
+          <button @click="toggleMobileMenu" class="md:hidden p-3 relative" style="z-index: 150;">
             <div class="space-y-1.5">
               <span class="block w-7 h-0.5 bg-white transition" :class="{ 'rotate-45 translate-y-2': mobileOpen }"></span>
               <span class="block w-7 h-0.5 bg-white transition" :class="{ 'opacity-0': mobileOpen }"></span>
@@ -103,11 +103,18 @@
       </div>
     </div>
 
+  </nav>
+
+  <!-- Odstęp pod fixed navbar (przestrzeń dla wystawającego logo) -->
+  <div class="h-16 md:h-20"></div>
+
+  <!-- Menu mobilne przez Teleport -->
+  <Teleport to="body">
     <!-- Backdrop dla menu mobilnego -->
-    <div v-if="mobileOpen" @click="mobileOpen = false" class="md:hidden fixed inset-0 bg-black/50" style="z-index: 9998 !important;"></div>
+    <div v-if="mobileOpen" @click="mobileOpen = false" class="md:hidden fixed inset-0 bg-black/50 z-[100]"></div>
 
     <!-- Mobilne menu (wysuwane z dołu) -->
-    <div v-if="mobileOpen" class="md:hidden fixed inset-0 bg-gradient-to-br from-orange-600 to-amber-600 overflow-y-auto" style="top: 72px; z-index: 9999 !important;">
+    <div v-if="mobileOpen" class="md:hidden fixed left-0 right-0 bottom-0 bg-gradient-to-br from-orange-600 to-amber-600 overflow-y-auto z-[110]" style="top: 80px;">
       <div class="py-6 px-6 space-y-4">
         <!-- Wyszukiwarka mobilna -->
         <div class="relative">
@@ -172,10 +179,10 @@
         </a>
       </div>
     </div>
-  </nav>
+  </Teleport>
 
   <!-- Odstęp pod fixed navbar (przestrzeń dla wystawającego logo) -->
-  <div class="h-40"></div>
+  <div class="h-16 md:h-20"></div>
 </template>
 
 <script setup>
@@ -188,10 +195,17 @@ const showContact = ref(false)
 // Wyszukiwarka i ulubione (współdzielone z Hero.vue)
 const { searchQuery, isFavoritesView, favoritesCount, toggleFavoritesView } = useProductFilters()
 
+// Funkcja do toggleowania menu mobilnego
+const toggleMobileMenu = () => {
+  console.log('🍔 Kliknięto hamburger! Poprzednia wartość:', mobileOpen.value)
+  mobileOpen.value = !mobileOpen.value
+  console.log('🍔 Nowa wartość:', mobileOpen.value)
+}
+
 // Debug - obserwuj zmiany mobileOpen
 import { watch } from 'vue'
 watch(mobileOpen, (newVal) => {
-  console.log('🍔 Menu mobile:', newVal ? 'OTWARTE' : 'ZAMKNIĘTE')
+  console.log('🍔 Menu mobile WATCH:', newVal ? 'OTWARTE' : 'ZAMKNIĘTE')
 })
 
 function handleClickOutside(event) {
