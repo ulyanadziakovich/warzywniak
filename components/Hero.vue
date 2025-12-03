@@ -273,7 +273,7 @@ const shouldShowMoreButton = computed(() => {
             </div>
 
             <!-- Obrazek po lewej -->
-            <div class="w-56 h-56 flex-shrink-0 bg-amber-50 relative">
+            <div class="w-80 h-80 flex-shrink-0 bg-amber-50 relative">
               <img :src="product.image || '/placeholder.jpg'" :alt="product.name"
                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                    :class="{ 'grayscale opacity-60': !product.inStock }"
@@ -281,19 +281,19 @@ const shouldShowMoreButton = computed(() => {
             </div>
 
             <!-- Treść po prawej -->
-            <div class="flex-1 p-5 flex flex-col justify-center">
-              <h3 class="font-bold text-amber-900 text-lg leading-tight mb-2">
+            <div class="flex-1 p-6 flex flex-col justify-center min-h-[320px]">
+              <h3 class="font-bold text-amber-900 text-2xl leading-tight mb-4">
                 {{ product.name }}
               </h3>
-              <p class="text-base text-gray-600 line-clamp-2 mb-3">
+              <p class="text-lg text-gray-600 line-clamp-3 mb-4">
                 {{ product.desc }}
               </p>
               <div class="flex items-center gap-2 flex-wrap">
-                <span v-if="product.category === 'waga'" class="bg-amber-600 text-white px-3 py-1 rounded-full font-bold text-xs flex items-center gap-1">
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2 2z"/></svg>
+                <span v-if="product.category === 'waga'" class="bg-amber-600 text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-1.5">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2 2z"/></svg>
                   NA WAGĘ
                 </span>
-                <span v-if="product.inStock" class="bg-green-100 text-green-800 px-3 py-1 rounded-full font-semibold text-xs">
+                <span v-if="product.inStock" class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-semibold text-sm">
                   Dostępny
                 </span>
               </div>
@@ -559,31 +559,32 @@ const shouldShowMoreButton = computed(() => {
 
   /* Widok listy - dostosowane obrazki na bardzo małych ekranach */
   .space-y-4 > div {
-    min-height: 170px;
+    min-height: 210px;
   }
 
-  .space-y-4 .w-56 {
-    width: 160px !important;
-    height: 160px !important;
+  .space-y-4 .w-80 {
+    width: 200px !important;
+    height: 200px !important;
   }
 
   .space-y-4 .flex-1 {
-    padding: 1rem !important;
+    padding: 1.25rem !important;
+    min-height: 200px !important;
   }
 
   .space-y-4 h3 {
-    font-size: 0.875rem !important;
-    margin-bottom: 0.375rem !important;
+    font-size: 1.125rem !important;
+    margin-bottom: 0.625rem !important;
   }
 
   .space-y-4 p {
-    font-size: 0.75rem !important;
-    margin-bottom: 0.375rem !important;
+    font-size: 1rem !important;
+    margin-bottom: 0.75rem !important;
   }
 
   .space-y-4 .flex.items-center.gap-2 span {
-    font-size: 0.625rem !important;
-    padding: 0.25rem 0.625rem !important;
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
   }
 }
 

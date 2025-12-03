@@ -15,8 +15,8 @@
 
         <!-- Logo (duże, wystawające z dołu na desktop, małe na mobile) -->
         <NuxtLink to="/" class="flex items-center group relative z-50 flex-shrink-0" style="height:56px; width: 180px;">
-          <img src="/logoogrod.png" alt="EkoWarzywniak" class="hidden md:block h-48 w-auto rounded-xl shadow-2xl group-hover:scale-105 transition" style="position: absolute; top: 0; left: 0; z-index: 100;" />
-          <img src="/logoogrod.png" alt="EkoWarzywniak" class="md:hidden h-12 w-auto rounded-lg shadow-lg" />
+          <img src="/logoogrod.png" alt="EkoWarzywniak" class="hidden md:block h-48 w-auto group-hover:scale-105 transition" style="position: absolute; top: 0; left: 0; z-index: 100;" />
+          <img src="/logoogrod.png" alt="EkoWarzywniak" class="md:hidden h-12 w-auto" />
         </NuxtLink>
 
         <!-- Linki nawigacyjne -->
