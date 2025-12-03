@@ -49,17 +49,17 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const slides = [
   {
-    img: '/pomidory.jpg',
+    img: '/pomidorkiauau.jpg',
     title: 'Świeże warzywa prosto z pola',
     desc: 'Ekologiczne, lokalne, ręcznie robione – prosto z Bieszczadów na Twój stół.',
   },
   {
-    img: '/papryczka.jpg',
+    img: '/papryczkiau.jpg',
     title: 'Ladne papryczki, pomidory, ziemniaki...',
     desc: 'Właśnie teraz smakują najlepiej! Sprawdź, co dziś zebraliśmy dla Ciebie.',
   },
   {
-    img: '/ziemniaki.jpg',
+    img: '/czosnekau.jpg',
     title: 'Sprawdź naszą sezonową ofertę',
     desc: 'Uprawiamy tak, jak robiły to nasze babcie – z miłością do ziemi i ludzi.',
   },

@@ -81,9 +81,14 @@ const products = [
   { id: 30, name: 'Rzodkiewka', image: '/rzodkiewka1.jpg', desc: 'Rzodkiewka', inStock: true, category: 'waga' },
   { id: 31, name: 'Marchewka', image: '/marchewka1.jpg', desc: 'Marchewka', inStock: true, category: 'waga' },
   { id: 32, name: 'Jabłka', image: '/jablka1.jpg', desc: 'Jabłka', inStock: true, category: 'waga' },
-  { id: 33, name: 'Buraki', image: '/buraki.jpg', desc: 'Buraki', inStock: true, category: 'waga' },
+  { id: 33, name: 'Buraki', image: '/burak.jpg', desc: 'Buraki', inStock: true, category: 'waga' },
   { id: 34, name: 'Gruszka', image: '/gruszka1.jpg', desc: 'Gruszka', inStock: true, category: 'waga' },
   { id: 35, name: 'Jajka Swojskie', image: '/jajkasw1.jpg', desc: 'Jajka swojskie dostępne na zamówienie z wyprzedzeniem', inStock: true, category: 'waga' },
+  { id: 35, name: 'Śliwka', image: '/sliwka.jpg', desc: 'Śliwka', inStock: false, category: 'waga' },
+  { id: 35, name: 'Fasolka', image: '/fasol.jpg', desc: 'Fasolka', inStock: false, category: 'waga' },
+  { id: 35, name: 'Cebula', image: '/cebula.jpg', desc: 'Cebula czerwona/biała', inStock: true, category: 'waga' },
+  { id: 35, name: 'Kapusta', image: '/kapusta.jpg', desc: 'Kapusta', inStock: true, category: 'waga' },
+ 
 ]
 
 const filteredProducts = computed(() => {
