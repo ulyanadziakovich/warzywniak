@@ -422,11 +422,17 @@ const shouldShowMoreButton = computed(() => {
     border-radius: 1rem !important;
   }
 
+  /* Padding w kafelkach */
+  .grid > div > div:last-child {
+    padding: 0.375rem !important;
+  }
+
   /* Tytuły produktów */
   .grid > div h3 {
-    font-size: 0.8125rem !important;
-    min-height: 3rem !important;
-    padding: 0.5rem !important;
+    font-size: 0.75rem !important;
+    min-height: 2.5rem !important;
+    padding: 0.375rem 0.25rem !important;
+    line-height: 1.2 !important;
   }
 
   /* Przycisk ulubione */
@@ -565,7 +571,10 @@ const shouldShowMoreButton = computed(() => {
   }
 
   .grid h3 {
-    font-size: 0.75rem !important;
+    font-size: 0.6875rem !important;
+    min-height: 2.25rem !important;
+    padding: 0.25rem 0.125rem !important;
+    line-height: 1.1 !important;
   }
 
   /* Widok listy - dostosowane obrazki na bardzo małych ekranach */
