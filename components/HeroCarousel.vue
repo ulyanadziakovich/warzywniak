@@ -236,12 +236,89 @@ onUnmounted(() => {
   .slide-desc { font-size: 1.25rem; }
 }
 
+/* Mobile - profesjonalny wygląd */
 @media (max-width: 768px) {
-  .slide-title { font-size: 2.5rem; }
-  .slide-desc { font-size: 1.15rem; }
-  .slide-overlay { padding: 2rem; }
-  .arrow { width: 48px; height: 48px; }
-  .arrow svg { width: 24px; height: 24px; }
+  .hero-carousel {
+    margin: 0 0 2rem 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .carousel-wrapper {
+    aspect-ratio: 4 / 3;
+  }
+
+  .slide-overlay {
+    padding: 1.5rem;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.85) 100%);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .slide-content {
+    max-width: 100%;
+  }
+
+  .slide-tag {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .slide-title {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    margin: 0.5rem 0 0.75rem;
+  }
+
+  .slide-desc {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* Ukryj strzałki na mobile */
+  .arrow {
+    display: none;
+  }
+
+  /* Większe i lepiej widoczne kropki */
+  .dots {
+    bottom: 16px;
+    gap: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255,255,255,0.6);
+  }
+
+  .dot.active {
+    background: #f97316;
+    transform: scale(1.4);
+    box-shadow: 0 0 12px rgba(249,115,22,0.8);
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  .slide-overlay {
+    padding: 1rem;
+  }
+
+  .slide-title {
+    font-size: 1.5rem;
+  }
+
+  .slide-desc {
+    font-size: 0.85rem;
+  }
+
+  .slide-tag {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.8rem;
+  }
 }
 
 @keyframes fadeInUp {

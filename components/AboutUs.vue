@@ -92,3 +92,144 @@
     </div>
   </section>
 </template>
+
+<style scoped>
+/* Optymalizacje mobilne dla sekcji O nas */
+
+@media (max-width: 768px) {
+  /* Sekcja */
+  section {
+    padding-top: 3rem !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Nagłówek */
+  section > div > div:first-of-type {
+    margin-bottom: 2.5rem !important;
+  }
+
+  section h2 {
+    font-size: 2.25rem !important;
+    line-height: 1.2 !important;
+  }
+
+  section > div > div:first-of-type p:first-child {
+    font-size: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Tekst - pudełko */
+  .max-w-5xl > div {
+    padding: 1.5rem !important;
+    margin-bottom: 3rem !important;
+  }
+
+  /* Tytuł w pudełku */
+  .space-y-10 > p:first-child {
+    font-size: 1.375rem !important;
+  }
+
+  /* Akapity w pudełku */
+  .space-y-10 {
+    gap: 1.5rem !important;
+  }
+
+  .space-y-10 p {
+    font-size: 0.9375rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Ostatni cytat */
+  .space-y-10 > p:last-child {
+    font-size: 1.125rem !important;
+    margin-top: 1rem !important;
+  }
+
+  /* Zdjęcia */
+  .grid.md\\:grid-cols-2 {
+    gap: 2rem !important;
+  }
+
+  .grid img {
+    border-radius: 1rem !important;
+  }
+
+  .grid p {
+    font-size: 1.125rem !important;
+  }
+
+  /* Mapa */
+  .max-w-6xl + div {
+    margin-top: 3rem !important;
+  }
+
+  .max-w-6xl + div p:first-child {
+    font-size: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .max-w-6xl + div iframe {
+    height: 280px !important;
+  }
+
+  /* Adres pod mapą */
+  .max-w-6xl + div .text-center {
+    margin-top: 1.5rem !important;
+  }
+
+  .max-w-6xl + div .text-center p {
+    font-size: 0.9375rem !important;
+  }
+
+  /* Pasek kontaktowy na dole */
+  .bg-gradient-to-r.from-amber-600 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  .bg-gradient-to-r.from-amber-600 .flex {
+    gap: 1.5rem !important;
+    font-size: 0.9375rem !important;
+  }
+
+  .bg-gradient-to-r.from-amber-600 svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  section {
+    padding-top: 2rem !important;
+  }
+
+  section h2 {
+    font-size: 2rem !important;
+  }
+
+  .max-w-5xl > div {
+    padding: 1.25rem !important;
+  }
+
+  .space-y-10 > p:first-child {
+    font-size: 1.25rem !important;
+  }
+
+  .space-y-10 p {
+    font-size: 0.875rem !important;
+  }
+
+  .space-y-10 > p:last-child {
+    font-size: 1rem !important;
+  }
+
+  .max-w-6xl + div iframe {
+    height: 240px !important;
+  }
+
+  .bg-gradient-to-r.from-amber-600 .flex {
+    font-size: 0.875rem !important;
+  }
+}
+</style>

@@ -71,3 +71,114 @@
     </div>
   </section>
 </template>
+
+<style scoped>
+/* Optymalizacje mobilne dla Oferty Sezonowej */
+
+@media (max-width: 768px) {
+  /* Sekcja */
+  section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  /* Nagłówek */
+  section > div > div:first-of-type {
+    margin-bottom: 2.5rem !important;
+  }
+
+  section h2 {
+    font-size: 2.25rem !important;
+    line-height: 1.2 !important;
+  }
+
+  section > div > div:first-of-type p:first-child {
+    font-size: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Grid */
+  .grid {
+    gap: 2rem !important;
+  }
+
+  /* Obrazek - zmniejsz efekty */
+  .group .absolute {
+    transform: rotate(2deg) !important;
+  }
+
+  .group:hover .absolute {
+    transform: rotate(3deg) !important;
+  }
+
+  .group img {
+    border-radius: 0.5rem !important;
+  }
+
+  /* Tekst główny */
+  .space-y-8 > p:first-child {
+    font-size: 1.375rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Akapity */
+  .space-y-5 {
+    gap: 1rem !important;
+  }
+
+  .space-y-5 p {
+    font-size: 0.9375rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Wysokość */
+  .flex.items-center.gap-4 span:first-child {
+    font-size: 0.7rem !important;
+  }
+
+  .flex.items-center.gap-4 span:last-child {
+    font-size: 1.25rem !important;
+  }
+
+  /* Zaproszenie */
+  .space-y-8 > div:last-of-type p:first-child {
+    font-size: 1.125rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .space-y-8 > div:last-of-type p:last-child {
+    font-size: 0.8125rem !important;
+    margin-top: 0.5rem !important;
+  }
+
+  /* Dolny pasek */
+  .mt-24 {
+    margin-top: 3rem !important;
+    padding-top: 2rem !important;
+  }
+
+  .mt-24 p {
+    font-size: 0.8125rem !important;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  section {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  section h2 {
+    font-size: 2rem !important;
+  }
+
+  .space-y-8 > p:first-child {
+    font-size: 1.25rem !important;
+  }
+
+  .space-y-5 p {
+    font-size: 0.875rem !important;
+  }
+}
+</style>

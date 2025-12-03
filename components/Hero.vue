@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import HeroCarousel from '@/components/HeroCarousel.vue'
 import { useProductFilters } from '@/composables/useProductFilters'
 
@@ -8,9 +8,28 @@ const showAll = ref(false)
 const selectedProduct = ref<any>(null)
 const isModalOpen = ref(false)
 const sortBy = ref<'all' | 'wlasne' | 'waga'>('all')
+const isMobile = ref(false)
 
 // === ULUBIONE I WYSZUKIWANIE ===
 const { searchQuery, isFavoritesView, favorites, toggleFavorite, isFavorite } = useProductFilters()
+
+// Sprawdź, czy jesteśmy na mobile
+const checkMobile = () => {
+  if (typeof window !== 'undefined') {
+    isMobile.value = window.innerWidth <= 768
+  }
+}
+
+onMounted(() => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+})
+
+onUnmounted(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', checkMobile)
+  }
+})
 
 const toggleShowAll = () => {
   showAll.value = !showAll.value
@@ -82,11 +101,28 @@ const filteredProducts = computed(() => {
     result = result.filter(p => favorites.value.includes(p.id))
   }
 
-  if (!showAll.value && !searchQuery.value.trim() && !isFavoritesView.value && sortBy.value === 'all') {
-    result = result.slice(0, 15)
+  // Limituj produkty jeśli nie showAll i nie ma wyszukiwania
+  if (!showAll.value && !searchQuery.value.trim() && !isFavoritesView.value) {
+    const limit = isMobile.value ? 4 : 15
+    result = result.slice(0, limit)
   }
 
   return result
+})
+
+// Całkowita liczba produktów w aktualnej kategorii (przed limitowaniem)
+const totalProductsInCategory = computed(() => {
+  let result = products
+
+  if (sortBy.value === 'wlasne') result = result.filter(p => p.category === 'wlasne')
+  if (sortBy.value === 'waga') result = result.filter(p => p.category === 'waga')
+
+  return result.length
+})
+
+// Czy pokazać przycisk "Pokaż więcej"
+const shouldShowMoreButton = computed(() => {
+  return !searchQuery.value.trim() && !isFavoritesView.value && totalProductsInCategory.value > (isMobile.value ? 4 : 15)
 })
 </script>
 
@@ -99,17 +135,17 @@ const filteredProducts = computed(() => {
     <section class="py-10 border-b-8 border-amber-600">
       <div class="max-w-7xl mx-auto px-6">
         <div class="flex flex-wrap justify-center gap-6">
-          <button @click="sortBy = 'all'; showAll = true"
+          <button @click="sortBy = 'all'; showAll = false"
                   :class="sortBy === 'all' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
                   class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition">
             Wszystkie produkty
           </button>
-          <button @click="sortBy = 'wlasne'; showAll = true"
+          <button @click="sortBy = 'wlasne'; showAll = false"
                   :class="sortBy === 'wlasne' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
                   class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition">
             Własne wyroby
           </button>
-          <button @click="sortBy = 'waga'; showAll = true"
+          <button @click="sortBy = 'waga'; showAll = false"
                   :class="sortBy === 'waga' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
                   class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition flex items-center gap-3">
             <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2 2z"/></svg>
@@ -169,14 +205,14 @@ const filteredProducts = computed(() => {
           <p class="mt-6 text-lg opacity-90">Rezerwacja tylko telefonicznie · Płatność gotówką przy odbiorze</p>
         </div>
 
-        <!-- POKAŻ WSZYSTKIE – TERAZ IDENTYCZNY JAK PRZYCISKI SORTOWANIA -->
-        <div v-if="!searchQuery && !isFavoritesView && sortBy === 'all'" class="text-center mt-20">
-          <button 
-            @click.prevent="toggleShowAll" 
+        <!-- POKAŻ WSZYSTKIE/WIĘCEJ – DLA WSZYSTKICH KATEGORII -->
+        <div v-if="shouldShowMoreButton" class="text-center mt-20">
+          <button
+            @click.prevent="toggleShowAll"
             :class="showAll ? 'bg-white text-amber-900 border-2 border-amber-300' : 'bg-amber-700 text-white shadow-amber-300/50'"
             class="px-12 py-5 rounded-full font-bold text-xl shadow-xl hover:scale-110 transition duration-300"
           >
-            {{ showAll ? 'Pokaż mniej' : `Pokaż wszystkie (${products.length})` }}
+            {{ showAll ? 'Pokaż mniej' : `Pokaż wszystkie (${totalProductsInCategory})` }}
           </button>
         </div>
       </div>
@@ -217,3 +253,200 @@ const filteredProducts = computed(() => {
     </Teleport>
   </div>
 </template>
+
+<style scoped>
+/* Optymalizacje mobilne dla profesjonalnego wyglądu */
+
+/* Przyciski sortowania - mobile */
+@media (max-width: 768px) {
+  section:has(.flex.flex-wrap.justify-center) {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* Przyciski sortowania */
+  .flex.flex-wrap.justify-center {
+    gap: 0.75rem !important;
+  }
+
+  .flex.flex-wrap.justify-center button {
+    padding: 0.625rem 1.25rem !important;
+    font-size: 0.875rem !important;
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Ikona wagi - ukryj na małych ekranach */
+  .flex.flex-wrap.justify-center button svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+}
+
+/* Siatka produktów - mobile */
+@media (max-width: 768px) {
+  /* Sekcja produktów */
+  section:has(.grid) {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* Siatka produktów */
+  .grid {
+    gap: 1rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Karty produktów */
+  .grid > div {
+    border-radius: 1rem !important;
+  }
+
+  /* Tytuły produktów */
+  .grid > div h3 {
+    font-size: 0.8125rem !important;
+    min-height: 3rem !important;
+    padding: 0.5rem !important;
+  }
+
+  /* Przycisk ulubione */
+  .grid > div button {
+    padding: 0.5rem !important;
+    top: 0.5rem !important;
+    left: 0.5rem !important;
+  }
+
+  .grid > div button svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+
+  /* Badge "NA WAGĘ" */
+  .grid > div > div:has(svg):not(button) {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.625rem !important;
+  }
+
+  .grid > div > div:has(svg):not(button) svg {
+    width: 0.875rem !important;
+    height: 0.875rem !important;
+  }
+
+  /* Badge "Brak" */
+  .grid > div > div:has(.bg-red-600) span {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+/* CTA Ulubione - mobile */
+@media (max-width: 768px) {
+  div:has(a[href="tel:603131190"]) {
+    padding: 1.5rem !important;
+    margin-top: 2rem !important;
+    border-radius: 1.5rem !important;
+  }
+
+  div:has(a[href="tel:603131190"]) p:first-child {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  div:has(a[href="tel:603131190"]) a {
+    padding: 1rem 2rem !important;
+    font-size: 1.5rem !important;
+  }
+
+  div:has(a[href="tel:603131190"]) p:last-child {
+    font-size: 0.875rem !important;
+    margin-top: 1rem !important;
+  }
+}
+
+/* Przycisk "Pokaż wszystkie" - mobile */
+@media (max-width: 768px) {
+  .text-center:has(button) button {
+    padding: 0.875rem 2rem !important;
+    font-size: 0.9375rem !important;
+  }
+}
+
+/* Modal - mobile pełnoekranowy */
+@media (max-width: 768px) {
+  /* Container modala */
+  .fixed.inset-0.bg-black\/70 {
+    padding: 0 !important;
+  }
+
+  /* Modal content */
+  .fixed.inset-0.bg-black\/70 > div {
+    max-width: 100% !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Obrazek w modalu */
+  .fixed.inset-0.bg-black\/70 img {
+    max-height: 50vw !important;
+    padding: 1.5rem !important;
+  }
+
+  /* Treść modala */
+  .fixed.inset-0.bg-black\/70 .p-8,
+  .fixed.inset-0.bg-black\/70 .md\\:p-10 {
+    padding: 1.5rem !important;
+  }
+
+  /* Tytuł w modalu */
+  .fixed.inset-0.bg-black\/70 h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Badges w modalu */
+  .fixed.inset-0.bg-black\/70 .flex.items-center.gap-4 {
+    gap: 0.5rem !important;
+    flex-wrap: wrap;
+  }
+
+  .fixed.inset-0.bg-black\/70 .flex.items-center.gap-4 span {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* Sekcje opis/skład */
+  .fixed.inset-0.bg-black\/70 .space-y-6 {
+    gap: 1rem !important;
+  }
+
+  .fixed.inset-0.bg-black\/70 h3 {
+    font-size: 1rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .fixed.inset-0.bg-black\/70 .space-y-6 p {
+    font-size: 0.875rem !important;
+  }
+
+  /* Przycisk zamknij */
+  .fixed.inset-0.bg-black\/70 button {
+    padding: 0.875rem !important;
+    font-size: 1rem !important;
+    margin-top: 1.5rem !important;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  .flex.flex-wrap.justify-center button {
+    font-size: 0.8125rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+
+  .grid h3 {
+    font-size: 0.75rem !important;
+  }
+}
+</style>
