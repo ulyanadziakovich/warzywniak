@@ -107,6 +107,12 @@ const filteredProducts = computed(() => {
     result = result.filter(p => favorites.value.includes(p.id))
   }
 
+  // Sortuj: dostępne produkty na początku, niedostępne na końcu
+  result = result.sort((a, b) => {
+    if (a.inStock === b.inStock) return 0
+    return a.inStock ? -1 : 1
+  })
+
   // Limituj produkty jeśli nie showAll i nie ma wyszukiwania
   if (!showAll.value && !searchQuery.value.trim() && !isFavoritesView.value) {
     // W widoku listy pokazujemy więcej produktów (8), w siatce mniej (4)
@@ -282,12 +288,9 @@ const shouldShowMoreButton = computed(() => {
 
             <!-- Treść po prawej -->
             <div class="flex-1 p-6 flex flex-col justify-center min-h-[320px]">
-              <h3 class="font-bold text-amber-900 text-2xl leading-tight mb-4">
+              <h3 class="font-bold text-amber-900 text-2xl leading-tight mb-6">
                 {{ product.name }}
               </h3>
-              <p class="text-lg text-gray-600 line-clamp-3 mb-4">
-                {{ product.desc }}
-              </p>
               <div class="flex items-center gap-2 flex-wrap">
                 <span v-if="product.category === 'waga'" class="bg-amber-600 text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-1.5">
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2 2z"/></svg>
