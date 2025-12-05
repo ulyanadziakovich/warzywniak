@@ -142,13 +142,13 @@ const shouldShowMoreButton = computed(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 via-white to-amber-50">
+  <div class="min-h-screen bg-gradient-to-b from-amber-50 via-white to-amber-50 overflow-x-hidden">
 
     <HeroCarousel />
 
     <!-- PRZYCISKI SORTOWANIA – bursztynowe, spójne -->
     <section class="py-10 border-b-8 border-amber-600">
-      <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-7xl mx-auto px-4 md:px-6">
         <!-- Wyszukiwarka i ulubione - tylko mobile -->
         <div class="md:hidden mb-4 space-y-3">
           <!-- Kompaktowy pasek ikon -->
@@ -232,7 +232,7 @@ const shouldShowMoreButton = computed(() => {
 
     <!-- SIATKA PRODUKTÓW -->
     <section class="py-16 md:py-24">
-      <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-7xl mx-auto px-4 md:px-6">
         <!-- Widok siatki -->
         <div v-if="viewMode === 'grid' || !isMobile" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           <!-- kafelki produktów – bez zmian, tylko kolory dopasowane do bursztynu -->
@@ -264,8 +264,8 @@ const shouldShowMoreButton = computed(() => {
                    loading="lazy" />
             </div>
 
-            <div class="p-5 text-center">
-              <h3 class="font-bold text-amber-900 text-sm md:text-base leading-tight line-clamp-3 min-h-[4.5rem] flex items-center justify-center">
+            <div class="p-3 text-center">
+              <h3 class="font-bold text-amber-900 text-xs md:text-base leading-snug min-h-[2.5rem] flex items-center justify-center">
                 {{ product.name }}
               </h3>
             </div>
@@ -291,7 +291,7 @@ const shouldShowMoreButton = computed(() => {
             </div>
 
             <!-- Obrazek po lewej -->
-            <div class="w-80 h-80 flex-shrink-0 bg-amber-50 relative">
+            <div class="w-36 h-36 sm:w-48 sm:h-48 md:w-80 md:h-80 flex-shrink-0 bg-amber-50 relative">
               <img :src="product.image || '/placeholder.jpg'" :alt="product.name"
                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                    :class="{ 'grayscale opacity-60': !product.inStock }"
@@ -299,8 +299,8 @@ const shouldShowMoreButton = computed(() => {
             </div>
 
             <!-- Treść po prawej -->
-            <div class="flex-1 p-6 flex flex-col justify-center min-h-[320px]">
-              <h3 class="font-bold text-amber-900 text-2xl leading-tight mb-6">
+            <div class="flex-1 p-3 flex flex-col justify-center">
+              <h3 class="font-bold text-amber-900 text-base md:text-2xl leading-snug mb-3">
                 {{ product.name }}
               </h3>
               <div class="flex items-center gap-2 flex-wrap">
@@ -424,15 +424,17 @@ const shouldShowMoreButton = computed(() => {
 
   /* Padding w kafelkach */
   .grid > div > div:last-child {
-    padding: 0.375rem !important;
+    padding: 0.5rem 0.25rem !important;
   }
 
   /* Tytuły produktów */
   .grid > div h3 {
-    font-size: 0.75rem !important;
-    min-height: 2.5rem !important;
+    font-size: 0.6875rem !important;
+    min-height: auto !important;
     padding: 0.375rem 0.25rem !important;
-    line-height: 1.2 !important;
+    line-height: 1.4 !important;
+    word-break: break-word !important;
+    white-space: normal !important;
   }
 
   /* Przycisk ulubione */
@@ -571,40 +573,39 @@ const shouldShowMoreButton = computed(() => {
   }
 
   .grid h3 {
-    font-size: 0.6875rem !important;
-    min-height: 2.25rem !important;
+    font-size: 0.625rem !important;
+    min-height: auto !important;
     padding: 0.25rem 0.125rem !important;
-    line-height: 1.1 !important;
+    line-height: 1.35 !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+  }
+
+  /* Padding w kafelkach dla bardzo małych ekranów */
+  .grid > div > div:last-child {
+    padding: 0.375rem 0.125rem !important;
   }
 
   /* Widok listy - dostosowane obrazki na bardzo małych ekranach */
   .space-y-4 > div {
-    min-height: 210px;
-  }
-
-  .space-y-4 .w-80 {
-    width: 200px !important;
-    height: 200px !important;
+    min-height: auto !important;
   }
 
   .space-y-4 .flex-1 {
-    padding: 1.25rem !important;
-    min-height: 200px !important;
+    padding: 0.5rem !important;
+    min-height: auto !important;
   }
 
   .space-y-4 h3 {
-    font-size: 1.125rem !important;
-    margin-bottom: 0.625rem !important;
-  }
-
-  .space-y-4 p {
-    font-size: 1rem !important;
-    margin-bottom: 0.75rem !important;
+    font-size: 0.8125rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.3 !important;
+    word-break: break-word !important;
   }
 
   .space-y-4 .flex.items-center.gap-2 span {
-    font-size: 0.875rem !important;
-    padding: 0.5rem 1rem !important;
+    font-size: 0.625rem !important;
+    padding: 0.25rem 0.5rem !important;
   }
 }
 
@@ -615,6 +616,18 @@ const shouldShowMoreButton = computed(() => {
 
 .space-y-4 > div:active {
   transform: scale(0.98);
+}
+
+/* Zapobiegaj poziomemu scrollowaniu na mobile */
+@media (max-width: 768px) {
+  body, html {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  * {
+    max-width: 100% !important;
+  }
 }
 
 /* Animacja rozwijania wyszukiwarki */
