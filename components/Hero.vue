@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute } from 'vue-router'
 import HeroCarousel from '@/components/HeroCarousel.vue'
 import { useProductFilters } from '@/composables/useProductFilters'
+
+const route = useRoute()
 
 // === STANY ===
 const showAll = ref(false)
@@ -22,14 +25,39 @@ const checkMobile = () => {
   }
 }
 
+// Handler dla eventu z karuzeli
+const handleCategorySelected = (event: CustomEvent) => {
+  sortBy.value = event.detail
+  showAll.value = false
+}
+
 onMounted(() => {
   checkMobile()
   window.addEventListener('resize', checkMobile)
+
+  // Nasłuchuj na wybór kategorii z karuzeli
+  window.addEventListener('categorySelected', handleCategorySelected as EventListener)
+
+  // Sprawdź localStorage przy ładowaniu strony
+  if (typeof window !== 'undefined') {
+    const savedCategory = localStorage.getItem('selectedCategory')
+    if (savedCategory === 'waga' || savedCategory === 'wlasne') {
+      sortBy.value = savedCategory
+      localStorage.removeItem('selectedCategory') // Wyczyść po użyciu
+    }
+  }
+
+  // Sprawdź parametr category z URL i ustaw sortowanie
+  const category = route.query.category
+  if (category === 'waga' || category === 'wlasne') {
+    sortBy.value = category
+  }
 })
 
 onUnmounted(() => {
   if (typeof window !== 'undefined') {
     window.removeEventListener('resize', checkMobile)
+    window.removeEventListener('categorySelected', handleCategorySelected as EventListener)
   }
 })
 
@@ -142,12 +170,12 @@ const shouldShowMoreButton = computed(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 via-white to-amber-50 overflow-x-hidden">
+  <div class="min-h-screen bg-white overflow-x-hidden">
 
     <HeroCarousel />
 
     <!-- PRZYCISKI SORTOWANIA – bursztynowe, spójne -->
-    <section class="py-10 border-b-8 border-amber-600">
+    <section id="produkty" class="py-6 md:py-10">
       <div class="max-w-7xl mx-auto px-4 md:px-6">
         <!-- Wyszukiwarka i ulubione - tylko mobile -->
         <div class="md:hidden mb-4 space-y-3">
@@ -232,9 +260,9 @@ const shouldShowMoreButton = computed(() => {
 
     <!-- SIATKA PRODUKTÓW -->
     <section class="py-16 md:py-24">
-      <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="max-w-7xl mx-auto md:px-6">
         <!-- Widok siatki -->
-        <div v-if="viewMode === 'grid' || !isMobile" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+        <div v-if="viewMode === 'grid' || !isMobile" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:px-0" :class="isMobile ? 'mobile-scroll-container' : 'px-4'">
           <!-- kafelki produktów – bez zmian, tylko kolory dopasowane do bursztynu -->
           <div v-for="product in filteredProducts" :key="product.id"
                @click="openModal(product)"
@@ -323,11 +351,11 @@ const shouldShowMoreButton = computed(() => {
         </div>
 
         <!-- POKAŻ WSZYSTKIE/WIĘCEJ – DLA WSZYSTKICH KATEGORII -->
-        <div v-if="shouldShowMoreButton" class="text-center mt-20">
+        <div v-if="shouldShowMoreButton" class="text-center mt-10">
           <button
             @click.prevent="toggleShowAll"
-            :class="showAll ? 'bg-white text-amber-900 border-2 border-amber-300' : 'bg-amber-700 text-white shadow-amber-300/50'"
-            class="px-12 py-5 rounded-full font-bold text-xl shadow-xl hover:scale-110 transition duration-300"
+            :class="showAll ? 'bg-white text-amber-900 border-2 border-amber-300' : 'bg-amber-700 text-white'"
+            class="px-12 py-5 rounded-full font-bold text-xl hover:scale-110 transition duration-300"
           >
             {{ showAll ? 'Pokaż mniej' : `Pokaż wszystkie (${totalProductsInCategory})` }}
           </button>
@@ -410,60 +438,81 @@ const shouldShowMoreButton = computed(() => {
     padding-bottom: 2rem !important;
   }
 
+  /* Siatka produktów - poziome przewijanie na mobile */
+  .mobile-scroll-container {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    gap: 1rem !important;
+    padding: 0 1rem !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important; /* Firefox */
+  }
+
+  .mobile-scroll-container::-webkit-scrollbar {
+    display: none !important; /* Chrome, Safari */
+  }
+
+  .mobile-scroll-container > div {
+    flex: 0 0 65% !important;
+    scroll-snap-align: start !important;
+    min-width: 65% !important;
+  }
+
   /* Siatka produktów */
   .grid {
     gap: 1rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
   }
 
   /* Karty produktów */
-  .grid > div {
+  .mobile-scroll-container > div {
     border-radius: 1rem !important;
   }
 
   /* Padding w kafelkach */
-  .grid > div > div:last-child {
-    padding: 0.5rem 0.25rem !important;
+  .mobile-scroll-container > div > div:last-child {
+    padding: 0.75rem 0.5rem !important;
   }
 
   /* Tytuły produktów */
-  .grid > div h3 {
-    font-size: 0.6875rem !important;
+  .mobile-scroll-container > div h3 {
+    font-size: 0.875rem !important;
     min-height: auto !important;
-    padding: 0.375rem 0.25rem !important;
+    padding: 0.5rem 0.25rem !important;
     line-height: 1.4 !important;
     word-break: break-word !important;
     white-space: normal !important;
   }
 
   /* Przycisk ulubione */
-  .grid > div button {
-    padding: 0.5rem !important;
-    top: 0.5rem !important;
-    left: 0.5rem !important;
+  .mobile-scroll-container > div button {
+    padding: 0.625rem !important;
+    top: 0.75rem !important;
+    left: 0.75rem !important;
   }
 
-  .grid > div button svg {
-    width: 1.25rem !important;
-    height: 1.25rem !important;
+  .mobile-scroll-container > div button svg {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
   }
 
   /* Badge "NA WAGĘ" */
-  .grid > div > div:has(svg):not(button) {
-    padding: 0.375rem 0.75rem !important;
-    font-size: 0.625rem !important;
+  .mobile-scroll-container > div > div:has(svg):not(button) {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.75rem !important;
   }
 
-  .grid > div > div:has(svg):not(button) svg {
-    width: 0.875rem !important;
-    height: 0.875rem !important;
+  .mobile-scroll-container > div > div:has(svg):not(button) svg {
+    width: 1rem !important;
+    height: 1rem !important;
   }
 
   /* Badge "Brak" */
-  .grid > div > div:has(.bg-red-600) span {
-    padding: 0.5rem 1rem !important;
-    font-size: 0.875rem !important;
+  .mobile-scroll-container > div > div:has(.bg-red-600) span {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
   }
 }
 
@@ -572,18 +621,24 @@ const shouldShowMoreButton = computed(() => {
     padding: 0.5rem 1rem !important;
   }
 
-  .grid h3 {
-    font-size: 0.625rem !important;
+  /* Większe karty na bardzo małych ekranach */
+  .mobile-scroll-container > div {
+    flex: 0 0 75% !important;
+    min-width: 75% !important;
+  }
+
+  .mobile-scroll-container h3 {
+    font-size: 0.75rem !important;
     min-height: auto !important;
-    padding: 0.25rem 0.125rem !important;
+    padding: 0.375rem 0.25rem !important;
     line-height: 1.35 !important;
     word-break: break-word !important;
     white-space: normal !important;
   }
 
   /* Padding w kafelkach dla bardzo małych ekranów */
-  .grid > div > div:last-child {
-    padding: 0.375rem 0.125rem !important;
+  .mobile-scroll-container > div > div:last-child {
+    padding: 0.5rem 0.25rem !important;
   }
 
   /* Widok listy - dostosowane obrazki na bardzo małych ekranach */
@@ -616,18 +671,6 @@ const shouldShowMoreButton = computed(() => {
 
 .space-y-4 > div:active {
   transform: scale(0.98);
-}
-
-/* Zapobiegaj poziomemu scrollowaniu na mobile */
-@media (max-width: 768px) {
-  body, html {
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
-  }
-
-  * {
-    max-width: 100% !important;
-  }
 }
 
 /* Animacja rozwijania wyszukiwarki */

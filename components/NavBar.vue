@@ -181,9 +181,6 @@
       </div>
     </div>
   </Teleport>
-
-  <!-- Odstęp pod fixed navbar (przestrzeń dla wystawającego logo) -->
-  <div class="h-16 md:h-20"></div>
 </template>
 
 <script setup>

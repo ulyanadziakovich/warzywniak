@@ -6,12 +6,18 @@
         <div v-for="(slide, index) in slides" :key="index" class="carousel-slide">
           <img :src="slide.img" :alt="slide.title" class="slide-img" />
           
-          <!-- Overlay z treścią – bez przycisku -->
+          <!-- Overlay z treścią z przyciskiem -->
           <div class="slide-overlay">
             <div class="slide-content">
-              <span class="slide-tag">{{ slide.tag }}</span>
               <h1 class="slide-title">{{ slide.title }}</h1>
               <p class="slide-desc">{{ slide.desc }}</p>
+              <button
+                v-if="slide.buttonText"
+                @click="handleButtonClick(slide.action)"
+                class="slide-button"
+              >
+                {{ slide.buttonText }}
+              </button>
             </div>
           </div>
         </div>
@@ -46,24 +52,56 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const slides = [
   {
     img: '/pomidorkiauau.jpg',
     title: 'Świeże warzywa prosto z pola',
     desc: 'Ekologiczne, lokalne, ręcznie robione – prosto z Bieszczadów na Twój stół.',
+    buttonText: 'Zobacz',
+    action: 'waga'
   },
   {
-    img: '/papryczkiau.jpg',
-    title: 'Ladne papryczki, pomidory, ziemniaki...',
-    desc: 'Właśnie teraz smakują najlepiej! Sprawdź, co dziś zebraliśmy dla Ciebie.',
+    img: '/ogrod2.jpg',
+    title: 'Wlasne przetwory i soki',
+    desc: 'Naturalne smaki zamknięte w słoikach i butelkach – bez konserwantów, bez sztucznych dodatków.',
+    buttonText: 'Zobacz',
+    action: 'wlasne'
   },
   {
-    img: '/czosnekau.jpg',
+    img: '/choinki1.jpg',
     title: 'Sprawdź naszą sezonową ofertę',
-    desc: 'Uprawiamy tak, jak robiły to nasze babcie – z miłością do ziemi i ludzi.',
+    desc: 'Choinki z wlasnej posesji i podstawki dla nich – idealne na święta i nie tylko.',
+    buttonText: 'Zobacz',
+    action: 'sezonowa'
   },
 ]
+
+const handleButtonClick = (action) => {
+  if (action === 'waga' || action === 'wlasne') {
+    // Zapisz wybór kategorii i scrolluj do produktów
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('selectedCategory', action)
+      window.dispatchEvent(new CustomEvent('categorySelected', { detail: action }))
+    }
+    // Scrolluj do sekcji produktów
+    setTimeout(() => {
+      const element = document.getElementById('produkty')
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100)
+  } else if (action === 'sezonowa') {
+    // Scrolluj do sekcji oferty sezonowej
+    const element = document.getElementById('oferta-sezonowa')
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+}
 
 const current = ref(0)
 let interval = null
@@ -164,6 +202,28 @@ onUnmounted(() => {
   opacity: 0.95;
 }
 
+.slide-button {
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  background: rgba(249, 115, 22, 0.95);
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.slide-button:hover {
+  background: rgba(249, 115, 22, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.6);
+}
+
 /* Strzałki */
 .arrow {
   position: absolute;
@@ -239,13 +299,14 @@ onUnmounted(() => {
 /* Mobile - profesjonalny wygląd */
 @media (max-width: 768px) {
   .hero-carousel {
-    margin: 0 0 2rem 0;
+    margin: -64px 0 0 0;
     border-radius: 0;
     box-shadow: none;
   }
 
   .carousel-wrapper {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: unset;
+    height: 100vh;
   }
 
   .slide-overlay {
@@ -277,12 +338,18 @@ onUnmounted(() => {
     line-height: 1.5;
   }
 
+  .slide-button {
+    margin-top: 1.5rem;
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+  }
+
   /* Ukryj strzałki na mobile */
   .arrow {
     display: none;
   }
 
-  /* Większe i lepiej widoczne kropki */
+  /* Kropki na mobile */
   .dots {
     bottom: 16px;
     gap: 10px;

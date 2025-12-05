@@ -29,17 +29,22 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="py-24 md:py-32 bg-white" id="oferta-sezonowa">
-    <!-- Cienki, elegancki pasek na górze -->
-    <div class="bg-gradient-to-r from-red-700 to-amber-700 h-1"></div>
-    <div class="bg-gradient-to-r from-red-700 to-amber-700 h-px"></div>
+  <section class="-mt-16 md:mt-12 pb-24 md:pb-32 bg-white" id="oferta-sezonowa">
+    <!-- Bardzo wąski pasek z napisem w środku -->
+    <div class="relative">
+      <!-- Bardzo wąski pasek na całą szerokość -->
+      <div class="bg-gradient-to-r from-red-700 to-amber-700 h-1"></div>
+      <!-- Tekst na środku, nad paskiem -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <p class="bg-white px-4 text-sm md:text-base font-bold text-red-700 tracking-widest uppercase">
+          Specjalna oferta sezonowa
+        </p>
+      </div>
+    </div>
 
     <div class="max-w-5xl mx-auto px-6">
       <!-- Minimalistyczny nagłówek -->
-      <div class="text-center mb-20">
-        <p class="text-sm md:text-base font-medium text-gray-600 tracking-widest uppercase mb-4">
-          Specjalna oferta sezonowa
-        </p>
+      <div class="text-center mb-20 mt-6">
         <h2 class="text-5xl md:text-7xl font-bold text-gray-900">
           Jodły Kaukaskie
         </h2>

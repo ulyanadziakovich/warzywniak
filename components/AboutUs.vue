@@ -1,15 +1,22 @@
 <template>
   <section class="pt-24 md:pt-32 pb-0 bg-white" id="o-nas">
-    <!-- Cienkie bursztynowe paski na górze -->
-    <div class="bg-gradient-to-r from-amber-700 to-amber-600 h-1"></div>
-    <div class="bg-gradient-to-r from-amber-700 to-amber-600 h-px"></div>
+    <!-- Bardzo wąski pasek z napisem w środku -->
+    <div class="relative">
+      <!-- Bardzo wąski pasek na całą szerokość -->
+      <div class="bg-gradient-to-r from-amber-700 to-amber-600 h-1"></div>
+      <!-- Tekst na środku, nad paskiem -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <p class="bg-white px-4 text-sm md:text-base font-bold text-amber-700 tracking-widest uppercase">
+          Nasza historia
+        </p>
+      </div>
+    </div>
 
     <!-- Główny kontener -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
+
       <!-- Nagłówek -->
-      <div class="text-center mb-16 md:mb-24">
-        <p class="text-sm font-medium text-gray-600 tracking-widest uppercase mb-4">Nasza historia</p>
+      <div class="text-center mb-16 md:mb-24 mt-6">
         <h2 class="text-5xl md:text-7xl font-bold text-gray-900">O nas</h2>
         <div class="w-24 h-1 bg-amber-700 mx-auto mt-8"></div>
       </div>
