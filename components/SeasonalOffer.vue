@@ -217,31 +217,23 @@ onUnmounted(() => {
 /* Świąteczne lampeczki */
 .christmas-lights {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   padding: 1rem 0.5rem;
   position: relative;
   overflow: visible;
+  min-height: 40px;
 }
 
 .light {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  position: relative;
+  flex-shrink: 0;
   animation: twinkle 1.5s ease-in-out infinite;
   box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-}
-
-.light::before {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.3);
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .light-red {
@@ -277,11 +269,9 @@ onUnmounted(() => {
 @keyframes twinkle {
   0%, 100% {
     opacity: 1;
-    transform: scale(1);
   }
   50% {
     opacity: 0.4;
-    transform: scale(0.9);
   }
 }
 
@@ -331,6 +321,11 @@ onUnmounted(() => {
 
 /* Optymalizacje mobilne dla Oferty Sezonowej */
 @media (max-width: 768px) {
+  /* Lampeczki - ukryj na mobilce */
+  .christmas-lights {
+    display: none;
+  }
+
   /* Przycisk muzyki - mobile */
   .music-toggle {
     top: 80px;
