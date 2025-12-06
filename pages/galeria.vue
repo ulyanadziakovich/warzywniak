@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 via-white to-amber-50">
+  <div class="min-h-screen bg-gradient-to-b from-red-50 via-white to-red-50">
 
     <!-- Przycisk Strona główna -->
     <NuxtLink
       to="/"
-      class="fixed top-4 left-4 z-50 bg-amber-600 hover:bg-amber-700 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:scale-105 transition flex items-center gap-2 text-sm"
+      class="fixed top-4 left-4 z-50 bg-red-600 hover:bg-red-700 text-white px-5 py-3 rounded-full font-bold shadow-2xl hover:scale-105 transition flex items-center gap-2 text-sm"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -15,17 +15,17 @@
 
     <!-- HERO -->
     <section class="relative py-16 md:py-32 overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-amber-100 via-amber-50 to-amber-50 opacity-70"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-red-100 via-red-50 to-red-50 opacity-70"></div>
 
       <div class="relative max-w-7xl mx-auto px-6 text-center">
-        <h1 class="text-5xl md:text-8xl font-bold text-amber-900 mb-6 leading-tight">
+        <h1 class="text-5xl md:text-8xl font-bold text-red-900 mb-6 leading-tight">
           Galeria
         </h1>
-        <p class="text-xl md:text-4xl text-amber-700 font-medium px-4">
+        <p class="text-xl md:text-4xl text-red-700 font-medium px-4">
           Nasz ogród, nasze ręce, nasze serce
         </p>
         <div class="flex justify-center mt-8">
-          <div class="w-32 h-1 bg-gradient-to-r from-amber-600 to-amber-700 rounded-full"></div>
+          <div class="w-32 h-1 bg-gradient-to-r from-red-600 to-red-700 rounded-full"></div>
         </div>
       </div>
     </section>
@@ -67,7 +67,7 @@
         <div v-if="isMobile && !showAll" class="text-center mt-12">
           <button
             @click="showAll = true"
-            class="bg-amber-600 hover:bg-amber-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition"
+            class="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition"
           >
             Pokaż więcej zdjęć
           </button>
@@ -75,7 +75,7 @@
 
         <!-- Dolny tekst -->
         <div class="text-center mt-16 md:mt-20 px-4">
-          <p class="text-2xl md:text-3xl text-amber-800 font-medium">
+          <p class="text-2xl md:text-3xl text-red-800 font-medium">
             To my. To nasz dom. To nasze Bieszczady.
           </p>
           <p class="text-base md:text-lg text-gray-600 mt-4 italic">
@@ -95,7 +95,19 @@ const photos = [
   { id: 4, src: '/plantacja.jpg',    alt: 'Ręczne zbiory',        title: 'Ręczne zbiory' },
   { id: 5, src: '/swiecy.jpg',       alt: 'Ręczne wykonanie',     title: 'Ręczne wykonanie' },
   { id: 6, src: '/borowka.jpg',      alt: 'Plantacja borówki',    title: 'Plantacja borówki' },
+  { id: 7, src: '/kurczaki.jpg',    alt: 'Inkubator Przetwórstwa', title: 'Swojskie kury' },
+  { id: 8, src: '/limoniada.jpg',        alt: 'Zbiory borówki',       title: 'Domowa lemoniada' },
+  { id: 9, src: '/mniszek.jpg',    alt: 'Nasze przetwory',      title: 'Zdrowy mniszek' },
+  { id: 10, src: '/jagoda.jpg',      alt: 'Plantacja borówki',    title: 'Targi borówki' },
+  { id: 11, src: '/ogureczki.jpg',      alt: 'Plantacja borówki',    title: 'Ogorki prosto z ogrodu' },
+  { id: 12, src: '/prezydent.jpg',    alt: 'Inkubator Przetwórstwa', title: '1 miejsce' },
+  { id: 13, src: '/prezydent2.jpg',        alt: 'Zbiory borówki',       title: 'Z prezytentem' },
+  { id: 14, src: '/salatka.jpg',    alt: 'Nasze przetwory',      title: 'Praca w inkubatorze' },
+  { id: 15, src: '/wielkanoc.jpg',      alt: 'Plantacja borówki',    title: 'Wielkanocne ozdoby' },
+  { id: 16, src: '/ziemniakizbor.jpg',      alt: 'Plantacja borówki',    title: 'Zbory ziemniaków' },
+
 ]
+  
 
 const showAll = ref(false)
 const isMobile = ref(false)

@@ -79,8 +79,8 @@
       <div class="mt-20 pt-12 border-t border-gray-200 max-w-7xl mx-auto"></div>
     </div>
 
-    <!-- NOWY: MINIMALISTYCZNY POMARAŃCZOWY PASEK KONTAKTOWY -->
-    <div class="bg-gradient-to-r from-amber-600 to-amber-700 py-8 mt-20">
+    <!-- NOWY: MINIMALISTYCZNY CZERWONY PASEK KONTAKTOWY -->
+    <div class="bg-gradient-to-r from-red-700 to-red-500 py-8 mt-20">
       <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-8 text-white text-lg md:text-xl font-medium">
         <div class="flex items-center gap-3">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,17 +189,17 @@
   }
 
   /* Pasek kontaktowy na dole */
-  .bg-gradient-to-r.from-amber-600 {
+  .bg-gradient-to-r.from-red-700 {
     padding-top: 1.5rem !important;
     padding-bottom: 1.5rem !important;
   }
 
-  .bg-gradient-to-r.from-amber-600 .flex {
+  .bg-gradient-to-r.from-red-700 .flex {
     gap: 1.5rem !important;
     font-size: 0.9375rem !important;
   }
 
-  .bg-gradient-to-r.from-amber-600 svg {
+  .bg-gradient-to-r.from-red-700 svg {
     width: 1.25rem !important;
     height: 1.25rem !important;
   }
@@ -235,7 +235,7 @@
     height: 240px !important;
   }
 
-  .bg-gradient-to-r.from-amber-600 .flex {
+  .bg-gradient-to-r.from-red-700 .flex {
     font-size: 0.875rem !important;
   }
 }

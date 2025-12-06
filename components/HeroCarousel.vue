@@ -60,7 +60,7 @@ const slides = [
   {
     img: '/pomidorkiauau.jpg',
     title: 'Świeże warzywa prosto z pola',
-    desc: 'Ekologiczne, lokalne, ręcznie robione – prosto z Bieszczadów na Twój stół.',
+    desc: 'Lokalne, ręcznie robione – prosto z Bieszczadów na Twój stół.',
     buttonText: 'Zobacz',
     action: 'waga'
   },
@@ -205,7 +205,7 @@ onUnmounted(() => {
 .slide-button {
   margin-top: 2rem;
   padding: 1rem 2.5rem;
-  background: rgba(249, 115, 22, 0.95);
+  background: rgba(220, 38, 38, 0.95);
   color: white;
   font-weight: 700;
   font-size: 1.1rem;
@@ -213,15 +213,15 @@ onUnmounted(() => {
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .slide-button:hover {
-  background: rgba(249, 115, 22, 1);
+  background: rgba(220, 38, 38, 1);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.6);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
 }
 
 /* Strzałki */
@@ -287,6 +287,13 @@ onUnmounted(() => {
   background: #4caf50;
   transform: scale(1.3);
   box-shadow: 0 0 15px rgba(76,175,80,0.7);
+}
+
+/* Desktop - odstęp od nawigacji */
+@media (min-width: 769px) {
+  .hero-carousel {
+    margin-top: 2rem;
+  }
 }
 
 /* Responsywność */

@@ -1,35 +1,97 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const images = [
-  '/choinki1.jpg',
-  '/choinki2.jpg',
-  '/choinki3.jpg'
-]
+// Muzyka świąteczna
+const audioRef = ref<HTMLAudioElement | null>(null)
+const isPlaying = ref(false)
+const isInView = ref(false)
 
-const currentImage = ref(0)
-let interval: ReturnType<typeof setInterval> | null = null
+// Video ref
+const videoRef = ref<HTMLVideoElement | null>(null)
 
-const nextImage = () => {
-  currentImage.value = (currentImage.value + 1) % images.length
+const toggleMusic = () => {
+  if (audioRef.value) {
+    if (isPlaying.value) {
+      audioRef.value.pause()
+      isPlaying.value = false
+    } else {
+      audioRef.value.play().catch(err => {
+        console.log('Nie można odtworzyć muzyki:', err)
+      })
+      isPlaying.value = true
+    }
+  }
 }
 
-const prevImage = () => {
-  currentImage.value = (currentImage.value - 1 + images.length) % images.length
-}
-
-// Auto-play co 5 sekund
 onMounted(() => {
-  interval = setInterval(nextImage, 5000)
+  // Wymuś odtworzenie video
+  if (videoRef.value) {
+    videoRef.value.play().catch(err => {
+      console.log('Nie można automatycznie odtworzyć video:', err)
+    })
+  }
+
+  // Intersection Observer do wykrywania czy sekcja jest widoczna
+  const section = document.getElementById('oferta-sezonowa')
+  if (section) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isInView.value = entry.isIntersecting
+
+          if (!entry.isIntersecting) {
+            // Sekcja niewidoczna - zatrzymaj muzykę
+            if (audioRef.value && isPlaying.value) {
+              audioRef.value.pause()
+              audioRef.value.currentTime = 0
+              isPlaying.value = false
+            }
+          }
+        })
+      },
+      { threshold: 0.3 }
+    )
+
+    observer.observe(section)
+
+    onUnmounted(() => {
+      observer.disconnect()
+    })
+  }
 })
 
 onUnmounted(() => {
-  if (interval) clearInterval(interval)
+  if (audioRef.value) {
+    audioRef.value.pause()
+  }
 })
 </script>
 
 <template>
   <section class="-mt-16 md:mt-12 pb-24 md:pb-32 bg-white" id="oferta-sezonowa">
+    <!-- Muzyka świąteczna -->
+    <audio ref="audioRef" loop preload="auto">
+      <source src="/christmas-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Przycisk muzyki -->
+    <button
+      v-if="isInView"
+      @click="toggleMusic"
+      class="music-toggle"
+      :aria-label="isPlaying ? 'Zatrzymaj muzykę' : 'Włącz muzykę'"
+    >
+      <!-- Ikona play -->
+      <svg v-if="!isPlaying" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+      <!-- Ikona pause -->
+      <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="6" y="4" width="4" height="16" fill="white"></rect>
+        <rect x="14" y="4" width="4" height="16" fill="white"></rect>
+      </svg>
+    </button>
+
     <!-- Bardzo wąski pasek z napisem w środku -->
     <div class="relative">
       <!-- Bardzo wąski pasek na całą szerokość -->
@@ -42,6 +104,22 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <!-- Świąteczne lampeczki -->
+    <div class="christmas-lights">
+      <div class="light light-red"></div>
+      <div class="light light-green"></div>
+      <div class="light light-yellow"></div>
+      <div class="light light-blue"></div>
+      <div class="light light-white"></div>
+      <div class="light light-red"></div>
+      <div class="light light-green"></div>
+      <div class="light light-yellow"></div>
+      <div class="light light-blue"></div>
+      <div class="light light-white"></div>
+      <div class="light light-red"></div>
+      <div class="light light-green"></div>
+    </div>
+
     <div class="max-w-5xl mx-auto px-6">
       <!-- Minimalistyczny nagłówek -->
       <div class="text-center mb-20 mt-6">
@@ -52,54 +130,25 @@ onUnmounted(() => {
       </div>
 
       <div class="grid md:grid-cols-2 gap-16 lg:gap-24 items-center">
-        <!-- Karuzela zdjęć – czysta, z cienką ramką -->
+        <!-- Filmik choinki -->
         <div class="order-2 md:order-1">
           <div class="relative group">
             <div class="absolute inset-0 bg-amber-100 rounded-lg transform rotate-3 group-hover:rotate-6 transition duration-700 -z-10"></div>
 
-            <!-- Karuzela -->
-            <div class="relative rounded-lg shadow-xl overflow-hidden z-10">
-              <div class="carousel-track" :style="{ transform: `translateX(-${currentImage * 100}%)` }">
-                <img
-                  v-for="(image, index) in images"
-                  :key="index"
-                  :src="image"
-                  :alt="`Jodła kaukaska premium ${index + 1}`"
-                  class="carousel-image"
-                />
-              </div>
-
-              <!-- Strzałki -->
-              <button
-                @click="prevImage"
-                class="carousel-arrow left"
-                aria-label="Poprzednie zdjęcie"
+            <!-- Video -->
+            <div class="relative rounded-lg shadow-xl overflow-hidden z-10 max-h-[650px]">
+              <video
+                ref="videoRef"
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="auto"
+                class="w-full h-full object-cover rounded-lg"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                  <path d="M15 18l-6-6 6-6"/>
-                </svg>
-              </button>
-              <button
-                @click="nextImage"
-                class="carousel-arrow right"
-                aria-label="Następne zdjęcie"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                  <path d="M9 18l6-6-6-6"/>
-                </svg>
-              </button>
-
-              <!-- Kropki -->
-              <div class="carousel-dots">
-                <button
-                  v-for="(_, i) in images"
-                  :key="i"
-                  @click="currentImage = i"
-                  :class="{ active: i === currentImage }"
-                  class="carousel-dot"
-                  :aria-label="`Przejdź do zdjęcia ${i + 1}`"
-                />
-              </div>
+                <source src="/choinki.MOV" type="video/mp4">
+                Twoja przeglądarka nie obsługuje odtwarzania wideo.
+              </video>
             </div>
           </div>
         </div>
@@ -165,96 +214,136 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-/* Karuzela */
-.carousel-track {
+/* Świąteczne lampeczki */
+.christmas-lights {
   display: flex;
-  width: 100%;
-  transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
-}
-
-.carousel-image {
-  min-width: 100%;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 20;
-  transition: all 0.3s;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  display: flex;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
+  padding: 1rem 0.5rem;
+  position: relative;
+  overflow: visible;
 }
 
-.carousel-arrow:hover {
-  background: white;
-  transform: translateY(-50%) scale(1.15);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-}
-
-.carousel-arrow svg {
-  width: 24px;
-  height: 24px;
-  stroke: #b45309;
-}
-
-.carousel-arrow:hover svg {
-  stroke: #92400e;
-}
-
-.carousel-arrow.left {
-  left: 16px;
-}
-
-.carousel-arrow.right {
-  right: 16px;
-}
-
-.carousel-dots {
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 20;
-}
-
-.carousel-dot {
+.light {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.6);
+  position: relative;
+  animation: twinkle 1.5s ease-in-out infinite;
+  box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+.light::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.light-red {
+  background: #ef4444;
+  color: #ef4444;
+  animation-delay: 0s;
+}
+
+.light-green {
+  background: #22c55e;
+  color: #22c55e;
+  animation-delay: 0.3s;
+}
+
+.light-yellow {
+  background: #fbbf24;
+  color: #fbbf24;
+  animation-delay: 0.6s;
+}
+
+.light-blue {
+  background: #3b82f6;
+  color: #3b82f6;
+  animation-delay: 0.9s;
+}
+
+.light-white {
+  background: #ffffff;
+  color: #ffffff;
+  animation-delay: 1.2s;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+}
+
+/* Przycisk muzyki */
+.music-toggle {
+  position: fixed;
+  top: 100px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #dc2626 0%, #b45309 100%);
   border: none;
+  border-radius: 50%;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulseGlow 2s ease-in-out infinite;
 }
 
-.carousel-dot.active {
-  background: #b45309;
-  transform: scale(1.3);
-  box-shadow: 0 0 12px rgba(180, 83, 9, 0.8);
+.music-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px rgba(220, 38, 38, 0.5);
 }
 
-.carousel-dot:hover {
-  background: rgba(255, 255, 255, 0.9);
+.music-toggle:active {
+  transform: scale(0.95);
+}
+
+.music-toggle svg {
+  width: 28px;
+  height: 28px;
+  stroke: white;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 24px rgba(220, 38, 38, 0.6), 0 0 16px rgba(220, 38, 38, 0.4);
+  }
 }
 
 /* Optymalizacje mobilne dla Oferty Sezonowej */
 @media (max-width: 768px) {
+  /* Przycisk muzyki - mobile */
+  .music-toggle {
+    top: 80px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .music-toggle svg {
+    width: 24px;
+    height: 24px;
+  }
+
   /* Sekcja */
   section {
     padding-top: 3rem !important;
@@ -290,37 +379,8 @@ onUnmounted(() => {
     transform: rotate(3deg) !important;
   }
 
-  .group img {
+  .group video {
     border-radius: 0.5rem !important;
-  }
-
-  /* Karuzela - mobilne strzałki */
-  .carousel-arrow {
-    width: 40px !important;
-    height: 40px !important;
-  }
-
-  .carousel-arrow svg {
-    width: 20px !important;
-    height: 20px !important;
-  }
-
-  .carousel-arrow.left {
-    left: 8px !important;
-  }
-
-  .carousel-arrow.right {
-    right: 8px !important;
-  }
-
-  .carousel-dots {
-    bottom: 12px !important;
-    gap: 8px !important;
-  }
-
-  .carousel-dot {
-    width: 10px !important;
-    height: 10px !important;
   }
 
   /* Tekst główny */
@@ -386,6 +446,19 @@ onUnmounted(() => {
 
 /* Extra small mobile */
 @media (max-width: 480px) {
+  /* Przycisk muzyki - bardzo małe ekrany */
+  .music-toggle {
+    width: 44px;
+    height: 44px;
+    top: 75px;
+    right: 12px;
+  }
+
+  .music-toggle svg {
+    width: 22px;
+    height: 22px;
+  }
+
   section {
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
@@ -401,17 +474,6 @@ onUnmounted(() => {
 
   .space-y-5 p {
     font-size: 0.875rem !important;
-  }
-
-  /* Karuzela - bardzo małe ekrany */
-  .carousel-arrow {
-    width: 36px !important;
-    height: 36px !important;
-  }
-
-  .carousel-arrow svg {
-    width: 18px !important;
-    height: 18px !important;
   }
 
   /* Podstawki - bardzo małe ekrany */

@@ -6,17 +6,26 @@
       <img src="https://www.transparenttextures.com/patterns/wood-pattern.png" class="w-full h-full object-cover" />
     </div>
     <!-- Gradient z lepszym przejściem -->
-    <div class="absolute inset-0 bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-500 opacity-95 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-red-800 via-red-700 to-red-600 opacity-95 pointer-events-none"></div>
     <!-- Subtelna nakładka dla głębi -->
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 pointer-events-none"></div>
 
     <div class="relative max-w-7xl mx-auto px-6 py-3">
       <div class="flex items-center justify-between">
 
-        <!-- Logo (duże, wystawające z dołu na desktop, małe na mobile) -->
+        <!-- Logo (duże, wystawające z dołu na desktop, tekst z lampkami na mobile) -->
         <NuxtLink to="/" class="flex items-center group relative z-50 flex-shrink-0" style="height:56px; width: 180px;">
+          <!-- Desktop logo -->
           <img src="/logoogrod.png" alt="EkoWarzywniak" class="hidden md:block h-48 w-auto group-hover:scale-105 transition" style="position: absolute; top: 0; left: 0; z-index: 100;" />
-          <img src="/logoogrod.png" alt="EkoWarzywniak" class="md:hidden h-12 w-auto" />
+
+          <!-- Mobile - tekst z lampkami -->
+          <div class="md:hidden flex items-center gap-1">
+            <div class="mobile-light mobile-light-red"></div>
+            <div class="mobile-light mobile-light-green"></div>
+            <span class="mobile-brand-text">Ogród Bieszczadzki</span>
+            <div class="mobile-light mobile-light-yellow"></div>
+            <div class="mobile-light mobile-light-blue"></div>
+          </div>
         </NuxtLink>
 
         <!-- Linki nawigacyjne -->
@@ -50,7 +59,7 @@
             <svg class="w-6 h-6" :class="isFavoritesView ? 'text-red-500 fill-red-500' : 'text-gray-700'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
             </svg>
-            <span v-if="favoritesCount > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-md">
+            <span v-if="favoritesCount > 0" class="absolute -top-1 -right-1 bg-white text-red-700 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-md">
               {{ favoritesCount }}
             </span>
           </button>
@@ -58,25 +67,25 @@
           <!-- Kontakt -->
           <div class="relative">
             <button @click="showContact = !showContact" class="nav-link-button px-6 py-2 bg-white/90 hover:bg-white rounded-full shadow-md hover:shadow-lg transition flex items-center gap-2">
-              <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
               </svg>
               <span class="font-semibold text-gray-800">Kontakt</span>
             </button>
-            <div v-if="showContact" id="contact-popup" class="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl p-6 z-50 border-2 border-orange-200">
+            <div v-if="showContact" id="contact-popup" class="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl p-6 z-50 border-2 border-red-200">
               <div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
-                <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                 </svg>
-                <a href="tel:603131190" class="text-lg font-bold text-gray-800 hover:text-orange-600 transition">603 131 190</a>
+                <a href="tel:603131190" class="text-lg font-bold text-gray-800 hover:text-red-600 transition">603 131 190</a>
               </div>
               <div class="flex items-center gap-3">
-                <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
                 </svg>
-                <a href="mailto:info@bieszczadzkiogrod.pl" class="text-sm font-semibold text-gray-700 hover:text-orange-600 transition break-all">info@bieszczadzkiogrod.pl</a>
+                <a href="mailto:info@bieszczadzkiogrod.pl" class="text-sm font-semibold text-gray-700 hover:text-red-600 transition break-all">info@bieszczadzkiogrod.pl</a>
               </div>
             </div>
           </div>
@@ -114,7 +123,23 @@
     <div v-if="mobileOpen" @click="mobileOpen = false" class="md:hidden fixed inset-0 bg-black/50 z-[100]"></div>
 
     <!-- Mobilne menu (wysuwane z dołu) -->
-    <div v-if="mobileOpen" class="md:hidden fixed left-0 right-0 bottom-0 bg-gradient-to-br from-orange-600 to-amber-600 overflow-y-auto z-[110]" style="top: 80px;">
+    <div v-if="mobileOpen" class="md:hidden fixed left-0 right-0 bottom-0 bg-gradient-to-br from-red-800 to-red-600 overflow-y-auto z-[110]" style="top: 80px;">
+      <!-- Świąteczne lampeczki -->
+      <div class="christmas-lights">
+        <div class="light light-red"></div>
+        <div class="light light-green"></div>
+        <div class="light light-yellow"></div>
+        <div class="light light-blue"></div>
+        <div class="light light-white"></div>
+        <div class="light light-red"></div>
+        <div class="light light-green"></div>
+        <div class="light light-yellow"></div>
+        <div class="light light-blue"></div>
+        <div class="light light-white"></div>
+        <div class="light light-red"></div>
+        <div class="light light-green"></div>
+      </div>
+
       <div class="py-6 px-6 space-y-4">
         <!-- Linki mobilne -->
         <NuxtLink to="/" @click="mobileOpen = false" class="w-full py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-md flex items-center justify-center gap-3">
@@ -136,7 +161,7 @@
         <!-- Kontakt mobilny -->
         <div class="space-y-3">
           <button @click="showContact = !showContact" class="w-full py-3 px-4 rounded-full bg-white hover:bg-gray-50 transition shadow-md flex items-center justify-center gap-3">
-            <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
             </svg>
@@ -148,8 +173,8 @@
 
           <!-- Rozwijana sekcja kontaktowa -->
           <div v-if="showContact" class="bg-white/95 rounded-2xl p-5 space-y-4 shadow-lg">
-            <a href="tel:603131190" class="flex items-center gap-3 p-3 rounded-xl hover:bg-amber-50 transition active:bg-amber-100 w-full text-left">
-              <svg class="w-6 h-6 text-orange-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <a href="tel:603131190" class="flex items-center gap-3 p-3 rounded-xl hover:bg-red-50 transition active:bg-red-100 w-full text-left">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
               </svg>
               <div class="text-left">
@@ -158,8 +183,8 @@
               </div>
             </a>
 
-            <a href="mailto:info@bieszczadzkiogrod.pl" class="flex items-center gap-3 p-3 rounded-xl hover:bg-amber-50 transition active:bg-amber-100 w-full text-left">
-              <svg class="w-6 h-6 text-orange-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <a href="mailto:info@bieszczadzkiogrod.pl" class="flex items-center gap-3 p-3 rounded-xl hover:bg-red-50 transition active:bg-red-100 w-full text-left">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
               </svg>
@@ -244,5 +269,120 @@ onUnmounted(() => {
 
 .nav-link-button {
   @apply font-semibold text-base;
+}
+
+/* Świąteczne lampeczki */
+.christmas-lights {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  position: relative;
+  overflow: visible;
+}
+
+.light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: relative;
+  animation: twinkle 1.5s ease-in-out infinite;
+  box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+.light::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.light-red {
+  background: #ef4444;
+  color: #ef4444;
+  animation-delay: 0s;
+}
+
+.light-green {
+  background: #22c55e;
+  color: #22c55e;
+  animation-delay: 0.3s;
+}
+
+.light-yellow {
+  background: #fbbf24;
+  color: #fbbf24;
+  animation-delay: 0.6s;
+}
+
+.light-blue {
+  background: #3b82f6;
+  color: #3b82f6;
+  animation-delay: 0.9s;
+}
+
+.light-white {
+  background: #ffffff;
+  color: #ffffff;
+  animation-delay: 1.2s;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+}
+
+/* Mobilny branding z lampkami */
+.mobile-brand-text {
+  font-family: 'Pacifico', 'Comic Sans MS', cursive;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.mobile-light {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: twinkle 1.5s ease-in-out infinite;
+  box-shadow: 0 0 8px currentColor, 0 0 15px currentColor;
+}
+
+.mobile-light-red {
+  background: #ef4444;
+  color: #ef4444;
+  animation-delay: 0s;
+}
+
+.mobile-light-green {
+  background: #22c55e;
+  color: #22c55e;
+  animation-delay: 0.4s;
+}
+
+.mobile-light-yellow {
+  background: #fbbf24;
+  color: #fbbf24;
+  animation-delay: 0.8s;
+}
+
+.mobile-light-blue {
+  background: #3b82f6;
+  color: #3b82f6;
+  animation-delay: 1.2s;
 }
 </style>

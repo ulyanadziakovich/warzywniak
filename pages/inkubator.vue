@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 via-white to-amber-50">
+  <div class="min-h-screen bg-gradient-to-b from-red-50 via-white to-red-50">
 
     <!-- Przycisk powrotu – mniejszy na mobile -->
-    <NuxtLink 
-      to="/" 
-      class="fixed top-4 left-4 z-50 bg-amber-600 hover:bg-amber-700 text-white px-5 py-3 md:px-7 md:py-4 rounded-full font-bold shadow-2xl hover:scale-105 transition flex items-center gap-2 md:gap-3 text-sm md:text-base"
+    <NuxtLink
+      to="/"
+      class="fixed top-4 left-4 z-50 bg-red-600 hover:bg-red-700 text-white px-5 py-3 md:px-7 md:py-4 rounded-full font-bold shadow-2xl hover:scale-105 transition flex items-center gap-2 md:gap-3 text-sm md:text-base"
     >
       <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -25,15 +25,15 @@
       <div class="relative text-center px-4 md:px-6 max-w-6xl mx-auto">
         <h1 class="text-3xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-2xl mb-3 md:mb-6 leading-tight">
           Inkubator<br>
-          <span class="text-amber-300">Przetwórstwa Lokalnego</span>
+          <span class="text-red-300">Przetwórstwa Lokalnego</span>
         </h1>
-        <p class="text-base md:text-2xl lg:text-4xl text-amber-100 font-medium drop-shadow-lg mb-6 md:mb-10 px-2 md:px-4 leading-relaxed">
+        <p class="text-base md:text-2xl lg:text-4xl text-red-100 font-medium drop-shadow-lg mb-6 md:mb-10 px-2 md:px-4 leading-relaxed">
           Przynieś swoje owoce i warzywa – zrobimy z nich coś pysznego!
         </p>
 
         <a
           href="tel:603131190"
-          class="inline-flex flex-col md:flex-row items-center gap-1 md:gap-3 bg-amber-600 hover:bg-amber-700 text-white px-6 py-4 md:px-12 md:py-6 rounded-full text-base md:text-2xl font-bold shadow-2xl hover:scale-110 transition"
+          class="inline-flex flex-col md:flex-row items-center gap-1 md:gap-3 bg-red-600 hover:bg-red-700 text-white px-6 py-4 md:px-12 md:py-6 rounded-full text-base md:text-2xl font-bold shadow-2xl hover:scale-110 transition"
         >
           <span class="text-sm md:text-2xl">Zadzwoń i umów się</span>
           <span class="text-lg md:text-2xl">→ 603 131 190</span>
@@ -42,7 +42,7 @@
 
       <!-- Strzałka w dół – mniejsza na mobile -->
       <div class="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg class="w-10 h-10 md:w-12 md:h-12 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-10 h-10 md:w-12 md:h-12 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
         </svg>
       </div>
@@ -53,10 +53,10 @@
       <div class="max-w-7xl mx-auto">
 
         <div class="text-center mb-10 md:mb-16 px-2">
-          <h2 class="text-2xl md:text-5xl lg:text-6xl font-bold text-amber-800 leading-tight mb-3 md:mb-4">
+          <h2 class="text-2xl md:text-5xl lg:text-6xl font-bold text-red-800 leading-tight mb-3 md:mb-4">
             Masz swoje jabłka, gruszki, maliny, pomidory?
           </h2>
-          <p class="text-xl md:text-3xl lg:text-4xl text-amber-700 mt-3 md:mt-6 font-medium leading-relaxed">
+          <p class="text-xl md:text-3xl lg:text-4xl text-red-700 mt-3 md:mt-6 font-medium leading-relaxed">
             Przynieś – zrobimy Ci z nich coś wspaniałego!
           </p>
         </div>
@@ -66,7 +66,7 @@
 
           <div class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-10 text-center hover:shadow-2xl hover:scale-105 transition duration-300">
             <img src="/sokmalina1.jpg" alt="Soki tłoczone" class="w-24 h-24 md:w-36 md:h-36 object-cover rounded-full mx-auto mb-5 md:mb-6 shadow-lg" />
-            <h3 class="text-xl md:text-3xl font-bold text-amber-700 mb-3 md:mb-4">Soki tłoczone</h3>
+            <h3 class="text-xl md:text-3xl font-bold text-red-700 mb-3 md:mb-4">Soki tłoczone</h3>
             <p class="text-sm md:text-lg text-gray-700 leading-relaxed">
               100% Twoje owoce → czysty, naturalny sok NFC<br>
               <span class="text-xs md:text-base text-gray-600">(bez cukru, bez wody, pasteryzowany)</span>
@@ -75,7 +75,7 @@
 
           <div class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-10 text-center hover:shadow-2xl hover:scale-105 transition duration-300">
             <img src="/truskawka1.jpg" alt="Konfitury i dżemy" class="w-24 h-24 md:w-36 md:h-36 object-cover rounded-full mx-auto mb-5 md:mb-6 shadow-lg" />
-            <h3 class="text-xl md:text-3xl font-bold text-amber-700 mb-3 md:mb-4">Konfitury i dżemy</h3>
+            <h3 class="text-xl md:text-3xl font-bold text-red-700 mb-3 md:mb-4">Konfitury i dżemy</h3>
             <p class="text-sm md:text-lg text-gray-700 leading-relaxed">
               Z Twoich malin, truskawek, śliwek, porzeczek – dokładnie tak, jak lubisz
             </p>
@@ -83,7 +83,7 @@
 
           <div class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-10 text-center hover:shadow-2xl hover:scale-105 transition duration-300">
             <img src="/ogorkicurry1.jpg" alt="Kiszonki i kimchi" class="w-24 h-24 md:w-36 md:h-36 object-cover rounded-full mx-auto mb-5 md:mb-6 shadow-lg" />
-            <h3 class="text-xl md:text-3xl font-bold text-amber-700 mb-3 md:mb-4">Kiszonki i kimchi</h3>
+            <h3 class="text-xl md:text-3xl font-bold text-red-700 mb-3 md:mb-4">Kiszonki i kimchi</h3>
             <p class="text-sm md:text-lg text-gray-700 leading-relaxed">
               Ogórki, kapusta, buraki, marchew, kimchi – ukisimy wszystko!
             </p>

@@ -239,17 +239,17 @@ const shouldShowMoreButton = computed(() => {
         <!-- Desktop - przyciski sortowania -->
         <div class="hidden md:flex flex-wrap justify-center gap-6">
           <button @click="sortBy = 'all'; showAll = false"
-                  :class="sortBy === 'all' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
+                  :class="sortBy === 'all' ? 'bg-red-700 text-white shadow-red-300/50' : 'bg-white text-red-900 border-2 border-red-300'"
                   class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition">
             Wszystkie produkty
           </button>
           <button @click="sortBy = 'wlasne'; showAll = false"
-                  :class="sortBy === 'wlasne' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
+                  :class="sortBy === 'wlasne' ? 'bg-red-700 text-white shadow-red-300/50' : 'bg-white text-red-900 border-2 border-red-300'"
                   class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition">
             Własne wyroby
           </button>
           <button @click="sortBy = 'waga'; showAll = false"
-                  :class="sortBy === 'waga' ? 'bg-amber-700 text-white shadow-amber-300/50' : 'bg-white text-amber-900 border-2 border-amber-300'"
+                  :class="sortBy === 'waga' ? 'bg-red-700 text-white shadow-red-300/50' : 'bg-white text-red-900 border-2 border-red-300'"
                   class="px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition flex items-center justify-center gap-3">
             <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M3 3h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2 2z"/></svg>
             Na wagę
@@ -354,7 +354,7 @@ const shouldShowMoreButton = computed(() => {
         <div v-if="shouldShowMoreButton" class="text-center mt-10">
           <button
             @click.prevent="toggleShowAll"
-            :class="showAll ? 'bg-white text-amber-900 border-2 border-amber-300' : 'bg-amber-700 text-white'"
+            :class="showAll ? 'bg-white text-red-900 border-2 border-red-300' : 'bg-red-700 text-white'"
             class="px-12 py-5 rounded-full font-bold text-xl hover:scale-110 transition duration-300"
           >
             {{ showAll ? 'Pokaż mniej' : `Pokaż wszystkie (${totalProductsInCategory})` }}
@@ -390,7 +390,7 @@ const shouldShowMoreButton = computed(() => {
                 <div><h3 class="text-xl font-bold text-amber-800 mb-2">Opis</h3><p class="leading-relaxed text-base">{{ selectedProduct?.desc }}</p></div>
                 <div v-if="selectedProduct?.sklad"><h3 class="text-xl font-bold text-amber-800 mb-2">Skład</h3><p class="leading-relaxed text-base">{{ selectedProduct?.sklad }}</p></div>
               </div>
-              <button @click="closeModal" class="w-full mt-8 py-4 bg-amber-600 hover:bg-amber-700 text-white text-lg font-bold rounded-xl shadow-xl transition">
+              <button @click="closeModal" class="w-full mt-8 py-4 bg-red-600 hover:bg-red-700 text-white text-lg font-bold rounded-xl shadow-xl transition">
                 Zamknij
               </button>
             </div>
